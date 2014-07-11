@@ -59,33 +59,35 @@ public class Main {
 	private static void moreComments() {
 		Boolean exit = false;
 		try {
-			// URL url = new URL(analyzedUrl);
-			// Document doc = Jsoup.parse(url, 15000);
-			// System.out.println("load html");
-			//
-			// System.out.println("Comments");
-			// System.out.println();
-			WebDriver driver = new FirefoxDriver();
-			// WebDriver driver = new HtmlUnitDriver();
+//			URL url = new URL(analyzedUrl);
+//			Document doc = Jsoup.parse(url, 15000);
+//			System.out.println("load html");
+//
+//			System.out.println("Comments");
+//			System.out.println();
+			WebDriver driver = new FirefoxDriver();	
+//			WebDriver driver = new HtmlUnitDriver();
 			driver.get(analyzedUrl);
 
-			// System.out.println(driver.getPageSource());
-			// WebElement element = driver
-			// .findElement(By
-			// .xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
-			// element.click();
-			//
-			// Iterator <WebElement> webs =
-			// driver.findElements(By.xpath("//div[@class='texto-comentario']/p")).iterator();
-			//
-			// while (webs.hasNext()) {
-			//
-			// WebElement e = webs.next();
-			// String comment = e.getText();
-			// System.out.println(comment);
-			// }
-
 			// Repeat the show more click until all the commentaries are showed
+//			System.out.println(driver.getPageSource());		
+//			WebElement element = driver
+//					.findElement(By
+//							.xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
+//			element.click();
+//			
+//			Iterator <WebElement> webs = driver.findElements(By.xpath("//div[@class='texto-comentario']/p")).iterator();
+//			
+//			while (webs.hasNext()) {
+//				
+//								WebElement e = webs.next();
+//								String comment = e.getText();
+//								System.out.println(comment);
+//			}
+			
+			
+			
+			
 			System.out.println();
 			while (!exit) {
 				try {
@@ -98,9 +100,7 @@ public class Main {
 				}
 			}
 
-			Iterator<WebElement> listaTitle = driver.findElements(
-					By.xpath("//div[@class='texto-comentario']/p[text()]"))
-					.iterator();
+			Iterator<WebElement> listaTitle = driver.findElements(By.xpath("//div[@class='texto-comentario']/p[text()]")).iterator();
 
 			while (listaTitle.hasNext()) {
 
@@ -108,6 +108,7 @@ public class Main {
 				String comment = e.getText();
 				System.out.println(comment);
 			}
+//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
