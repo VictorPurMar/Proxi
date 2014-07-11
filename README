@@ -1,0 +1,19 @@
+Proxy Comment Analyzer
+
+Autor: Victor Purcallas Marchesi<vpurcallas@gmail.com>
+Fecha: 2014/07/11
+
+Descripción:
+
+	Proxy Comment Analyzer es un software destinado a la investigación social.
+	
+	Concretamente se trata de una herramienta para la recopilación, filtrado y organización de comentarios
+escritos por lectores de diarios digitales a articulos concretos.
+
+	El software esta pensado para funcionar unicamente en 3 publicaciones oficiales de España: El Mundo,
+El País y 20 Minutos. Por lo que no sera operativo para ningun otro diario sin modificar el código.
+
+	Este software esta enteramente programado en Java, utilizando Swing para la interficie gráfica.
+	
+	
+Licencia: GPL3
