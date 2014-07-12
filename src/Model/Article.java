@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Article {
 
 	private String title;
@@ -8,18 +11,25 @@ public class Article {
 	private String date;
 	private String url;
 	private String diary;
-	private Commentary commentaries;
+	private List<Commentary> commentaries;
 	
 	// Constructor
 
 	public Article(String title, String subtitle, String author, String date,
 			String url) {
 		super();
+		commentaries = new ArrayList<Commentary>();
 		this.title = title;
 		this.subtitle = subtitle;
 		this.author = author;
 		this.date = date;
 		this.url = url;
+	}
+	
+	// Public Methods
+	
+	public void addCommentary(Commentary commentary){
+		this.commentaries.add(commentary);
 	}
 
 	// Getters and Setters
@@ -64,11 +74,11 @@ public class Article {
 		this.url = url;
 	}
 
-	public Commentary getCommentaries() {
+	public List<Commentary> getCommentaries() {
 		return commentaries;
 	}
 
-	public void setCommentaries(Commentary commentaries) {
+	public void setCommentaries(List<Commentary> commentaries) {
 		this.commentaries = commentaries;
 	}
 
