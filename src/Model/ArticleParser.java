@@ -14,10 +14,10 @@ public class ArticleParser {
 
 	public static void main(String[] args) {
 		ArticleParser ap = new ArticleParser();
-		ap.run();
+		ap.run(analyzedUrl);
 	}
 
-	public void run() {
+	public void run(String url) {
 		// Filter the parser depending the url
 		if (analyzedUrl.contains("www.elmundo.es")) {
 			mundoParser();
