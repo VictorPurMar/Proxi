@@ -7,8 +7,9 @@ public class Article {
 	private String author;
 	private String date;
 	private String url;
-	private Commentary comentary;
-
+	private String diary;
+	private Commentary commentaries;
+	
 	// Constructor
 
 	public Article(String title, String subtitle, String author, String date,
@@ -61,6 +62,22 @@ public class Article {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Commentary getCommentaries() {
+		return commentaries;
+	}
+
+	public void setCommentaries(Commentary commentaries) {
+		this.commentaries = commentaries;
+	}
+
+	public String getDiary() {
+		return diary;
+	}
+
+	public void setDiary(String diary) {
+		this.diary = diary;
 	}
 
 	// Equals and HashCode
