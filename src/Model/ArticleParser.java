@@ -9,47 +9,46 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class ArticleParser {
 
-	//Example url
+	// Example url
 	public static String analyzedUrl = "http://www.elmundo.es/ciencia/2014/07/10/53beb7d3ca4741f8298b4586.html";
 
-	
 	public static void main(String[] args) {
 		ArticleParser ap = new ArticleParser();
 		ap.run();
 	}
 
 	public void run() {
-		//Filter the parser depending the url 
-		if (analyzedUrl.contains("www.elmundo.es")){
+		// Filter the parser depending the url
+		if (analyzedUrl.contains("www.elmundo.es")) {
 			mundoParser();
-		}else if(analyzedUrl.contains("elpais.com")){
+		} else if (analyzedUrl.contains("elpais.com")) {
 			paisParser();
-		}else if(analyzedUrl.contains("www.20minutos.es")){
+		} else if (analyzedUrl.contains("www.20minutos.es")) {
 			minutosParser();
 		}
-		
+
 	}
 
-	//To develope
+	// To develope
 	private void minutosParser() {
 		System.out.println("20 Minutos");
-		
+
 	}
 
-	//To develope
+	// To develope
 	private void paisParser() {
 		System.out.println("El Pais");
-		
+
 	}
-	
-	//To develope
+
+	// To develope
 	private static void mundoParser() {
 		Boolean exit = false;
 		try {
-			WebDriver driver = new FirefoxDriver();	
+			WebDriver driver = new FirefoxDriver();
 			driver.get(analyzedUrl);
 
-			// Repeat the show more click until all the commentaries are showed	
+			// Repeat the show more click until all the commentaries are showed
 			System.out.println();
 			while (!exit) {
 				try {
@@ -62,7 +61,9 @@ public class ArticleParser {
 				}
 			}
 
-			Iterator<WebElement> listaTitle = driver.findElements(By.xpath("//div[@class='texto-comentario']/p[text()]")).iterator();
+			Iterator<WebElement> listaTitle = driver.findElements(
+					By.xpath("//div[@class='texto-comentario']/p[text()]"))
+					.iterator();
 			while (listaTitle.hasNext()) {
 				WebElement e = listaTitle.next();
 				String comment = e.getText();
