@@ -74,4 +74,12 @@ public class Commentary {
 		return true;
 	}
 
+	//To String 
+	
+	@Override
+	public String toString() {
+		return "Commentary [nickName=" + nickName + ", date=" + date
+				+ ", number=" + number + ", commentary=" + commentary + "]";
+	}
+
 }

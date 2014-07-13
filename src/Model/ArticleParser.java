@@ -56,19 +56,38 @@ public class ArticleParser {
 							.findElement(By
 									.xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
 					element.click();
+					Thread.sleep(1);	//Correct one unexpected behavior and allow to process the URL to the browser
 				} catch (Exception e) {
 					exit = true;
 				}
 			}
-
-			Iterator<WebElement> listaTitle = driver.findElements(
-					By.xpath("//div[@class='texto-comentario']/p[text()]"))
+		
+			
+			//Article Commentaries
+			
+			Iterator<WebElement> commentary = driver.findElements(
+					By.xpath("//div[@id='listado_comentarios']/section/article"))
 					.iterator();
-			while (listaTitle.hasNext()) {
-				WebElement e = listaTitle.next();
-				String comment = e.getText();
-				System.out.println(comment);
+			
+			while (commentary.hasNext()) {
+				WebElement e = commentary.next();
+				
+				//number
+				int n = Integer.parseInt(e.findElement(By.xpath("header/h1/a[text()]")).getText());
+				//Author
+				String author = e.findElement(By.xpath("header/div[@class='autor']/span[text()]")).getText();
+				//Time
+				String time = e.findElement(By.xpath("header/time")).getAttribute("datetime").toString();
+				//Commentary
+				String comment = e.findElement(By.xpath("div[@class='texto-comentario']/p[text()]")).getText();
+				
+				Commentary c = new Commentary(author, time, n, comment);
+				System.out.println(c.toString());
+				
+
 			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
