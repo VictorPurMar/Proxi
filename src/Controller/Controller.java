@@ -8,26 +8,37 @@ import Model.ArticleParser;
 
 public class Controller {
 	
+	private static Controller instance;
 	public List<String> analyzedUrls;
 	public List<Article> articles;
+	public ArticleParser ap;
 
 	public static void main(String[] args) {
-		Controller c = new Controller();
-		
+		Controller c = getInstance();	
 		//load example data
 		c.exampleAnalyzedUrls();
 		c.parseUrls();
 	}
 	
+	//Singleton pattern
+	public static Controller getInstance() {
+		if (instance == null) {
+		    instance = new Controller();
+		}
+		return instance;
+	}
+	
+	//Constructor
 	public Controller(){
 		this.analyzedUrls = new ArrayList<String>();
 		this.articles = new ArrayList<Article>();
+		this.ap = new ArticleParser();
+		
 	}
 
 	private void parseUrls() {
-		ArticleParser ap = new ArticleParser();
 		for (int i = 0 ; i < this.analyzedUrls.size() ; i++){
-			Article ar = ap.run(this.analyzedUrls.get(i));
+			Article ar = this.ap.run(this.analyzedUrls.get(i));
 			articles.add(ar);
 		}
 		System.out.println(this.articles.toString());

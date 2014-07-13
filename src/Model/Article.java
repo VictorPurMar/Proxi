@@ -122,9 +122,9 @@ public class Article {
 	
 	@Override
 	public String toString() {
-		return "\nTitle= " + title + "\nSubtitle= " + subtitle
+		return "\n\nTitle= " + title + "\nSubtitle= " + subtitle
 				+ "\nAuthor= " + author + "\nDate= " + date + "\nUrl= " + url
-				+ ", Diary= " + diary + " \nCommentaries\n" + commentaries + "";
+				+ "\nDiary= " + diary + " \nCommentaries\n" + commentaries + "";
 	}
 
 }

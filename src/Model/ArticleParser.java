@@ -10,9 +10,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class ArticleParser {
 
 	private String analyzedUrl;
+	private static WebDriver driver;
 	
 	public Article run(String url) {
 		Article ar = null ;
+		if(driver == null){
+			driver = new FirefoxDriver();
+		}
 		this.analyzedUrl = url;
 		// Filter the parser depending the url
 		if (analyzedUrl.contains("www.elmundo.es")) {
@@ -43,18 +47,17 @@ public class ArticleParser {
 		Boolean exit = false;
 		Article article = null;
 		try {
-			WebDriver driver = new FirefoxDriver();
 			driver.get(analyzedUrl);
-
+			Thread.sleep(100);	//Correct one unexpected behavior and allow to process the URL to the browser
 			// Repeat the show more click until all the commentaries are showed
 			System.out.println();
 			while (!exit) {
+				Thread.sleep(10);	//Correct one unexpected behavior and allow to process the URL to the browser
 				try {
 					WebElement element = driver
 							.findElement(By
 									.xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
 					element.click();
-					Thread.sleep(1);	//Correct one unexpected behavior and allow to process the URL to the browser
 				} catch (Exception e) {
 					exit = true;
 				}
