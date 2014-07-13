@@ -9,40 +9,37 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class ArticleParser {
 
-	// Example url
-	public static String analyzedUrl = "http://www.elmundo.es/ciencia/2014/07/10/53beb7d3ca4741f8298b4586.html";
-
-	public static void main(String[] args) {
-		ArticleParser ap = new ArticleParser();
-		ap.run(analyzedUrl);
-	}
-
-	public void run(String url) {
+	private String analyzedUrl;
+	
+	public Article run(String url) {
+		Article ar = null ;
+		this.analyzedUrl = url;
 		// Filter the parser depending the url
 		if (analyzedUrl.contains("www.elmundo.es")) {
-			mundoParser();
+			ar = mundoParser();
 		} else if (analyzedUrl.contains("elpais.com")) {
-			paisParser();
+			ar = paisParser();
 		} else if (analyzedUrl.contains("www.20minutos.es")) {
-			minutosParser();
+			ar = minutosParser();
 		}
-
+		return ar;
 	}
 
 	// To develope
-	private void minutosParser() {
+	private Article minutosParser() {
 		System.out.println("20 Minutos");
+		return null;
 
 	}
 
 	// To develope
-	private void paisParser() {
+	private Article paisParser() {
 		System.out.println("El Pais");
-
+		return null;
 	}
 
 	// To develope
-	private static Article mundoParser() {
+	private Article mundoParser() {
 		Boolean exit = false;
 		Article article = null;
 		try {
@@ -67,9 +64,9 @@ public class ArticleParser {
 			
 			String title = driver.findElement(By.xpath("//h1[@itemprop='headline']")).getText();
 			String subtitle = driver.findElement(By.xpath("//p[@class='antetitulo']")).getText();
-			String author = driver.findElement(By.xpath("//footer/address//span[@itemprop='name']/a")).getText();
+//			String author = driver.findElement(By.xpath("//footer/address//span[@itemprop='name']/a")).getText();
+			String author = driver.findElement(By.xpath("//footer/address//span[@itemprop='name']")).getText();
 			String date = driver.findElement(By.xpath("//footer/time")).getAttribute("datetime");
-			System.out.println(date);
 			String url = analyzedUrl;
 			String[] cleanDiary = analyzedUrl.split("/");
 			String diary = cleanDiary[2];
@@ -100,9 +97,6 @@ public class ArticleParser {
 				Commentary c = new Commentary(commentaryAuthor, time, n, comment);
 				article.addCommentary(c);
 			}
-			
-			System.out.println(article);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
