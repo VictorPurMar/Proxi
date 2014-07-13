@@ -8,7 +8,8 @@ public class Commentary {
 	private String commentary;
 
 	// Constructor
-	public Commentary(String nickName, String date, int number, String commentary) {
+	public Commentary(String nickName, String date, int number,
+			String commentary) {
 		super();
 		this.nickName = nickName;
 		this.date = date;
@@ -74,8 +75,8 @@ public class Commentary {
 		return true;
 	}
 
-	//To String 
-	
+	// To String
+
 	@Override
 	public String toString() {
 		return "\nCommentary [nickName=" + nickName + ", date=" + date

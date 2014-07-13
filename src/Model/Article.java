@@ -12,7 +12,7 @@ public class Article {
 	private String url;
 	private String diary;
 	private List<Commentary> commentaries;
-	
+
 	// Constructor
 
 	public Article(String title, String subtitle, String author, String date,
@@ -26,10 +26,10 @@ public class Article {
 		this.url = url;
 		this.diary = diary;
 	}
-	
+
 	// Public Methods
-	
-	public void addCommentary(Commentary commentary){
+
+	public void addCommentary(Commentary commentary) {
 		this.commentaries.add(commentary);
 	}
 
@@ -117,14 +117,14 @@ public class Article {
 			return false;
 		return true;
 	}
-	
-	//To String
-	
+
+	// To String
+
 	@Override
 	public String toString() {
-		return "\n\nTitle= " + title + "\nSubtitle= " + subtitle
-				+ "\nAuthor= " + author + "\nDate= " + date + "\nUrl= " + url
-				+ "\nDiary= " + diary + " \nCommentaries\n" + commentaries + "";
+		return "\n\nTitle= " + title + "\nSubtitle= " + subtitle + "\nAuthor= "
+				+ author + "\nDate= " + date + "\nUrl= " + url + "\nDiary= "
+				+ diary + " \nCommentaries\n" + commentaries + "";
 	}
 
 }
