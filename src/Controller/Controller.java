@@ -18,8 +18,15 @@ public class Controller {
 		//load example data
 		c.exampleAnalyzedUrls();
 		c.parseUrls();
+		c.writeCSV();
 	}
 	
+	private void writeCSV() {
+		for(int i = 0 ; i < this.articles.size(); i++){
+			ProxiCSVWriter.makeTheCSV(this.articles.get(i));
+		}
+	}
+
 	//Singleton pattern
 	public static Controller getInstance() {
 		if (instance == null) {

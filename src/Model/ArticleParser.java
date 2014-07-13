@@ -3,6 +3,7 @@ package Model;
 import java.util.Iterator;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,6 +17,7 @@ public class ArticleParser {
 		Article ar = null ;
 		if(driver == null){
 			driver = new FirefoxDriver();
+			driver.manage().window().setSize(new Dimension(100, 100));
 		}
 		this.analyzedUrl = url;
 		// Filter the parser depending the url
@@ -48,18 +50,25 @@ public class ArticleParser {
 		Article article = null;
 		try {
 			driver.get(analyzedUrl);
-			Thread.sleep(100);	//Correct one unexpected behavior and allow to process the URL to the browser
 			// Repeat the show more click until all the commentaries are showed
 			System.out.println();
 			while (!exit) {
-				Thread.sleep(10);	//Correct one unexpected behavior and allow to process the URL to the browser
 				try {
+					Thread.sleep(100);	//Correct one unexpected behavior and allow to process the URL to the browser
 					WebElement element = driver
 							.findElement(By
 									.xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
 					element.click();
 				} catch (Exception e) {
-					exit = true;
+//					try {
+//						Thread.sleep(10);	//Correct one unexpected behavior and allow to process the URL to the browser
+//						WebElement element = driver
+//								.findElement(By
+//										.xpath("//ul[@id='subNavComentarios']//li//a[@id='botonMas']"));
+//						element.click();
+//					} catch (Exception ex) {
+						exit = true;
+//					}
 				}
 			}
 			
