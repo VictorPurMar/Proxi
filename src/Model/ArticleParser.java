@@ -42,8 +42,9 @@ public class ArticleParser {
 	}
 
 	// To develope
-	private static void mundoParser() {
+	private static Article mundoParser() {
 		Boolean exit = false;
+		Article article = null;
 		try {
 			WebDriver driver = new FirefoxDriver();
 			driver.get(analyzedUrl);
@@ -61,6 +62,21 @@ public class ArticleParser {
 					exit = true;
 				}
 			}
+			
+			//Article
+			
+			String title = driver.findElement(By.xpath("//h1[@itemprop='headline']")).getText();
+			String subtitle = driver.findElement(By.xpath("//p[@class='antetitulo']")).getText();
+			String author = driver.findElement(By.xpath("//footer/address//span[@itemprop='name']/a")).getText();
+			String date = driver.findElement(By.xpath("//footer/time")).getAttribute("datetime");
+			System.out.println(date);
+			String url = analyzedUrl;
+			String[] cleanDiary = analyzedUrl.split("/");
+			String diary = cleanDiary[2];
+			
+			article = new Article(title, subtitle, author, date, url, diary);
+			
+			
 		
 			
 			//Article Commentaries
@@ -75,23 +91,22 @@ public class ArticleParser {
 				//number
 				int n = Integer.parseInt(e.findElement(By.xpath("header/h1/a[text()]")).getText());
 				//Author
-				String author = e.findElement(By.xpath("header/div[@class='autor']/span[text()]")).getText();
+				String commentaryAuthor = e.findElement(By.xpath("header/div[@class='autor']/span[text()]")).getText();
 				//Time
 				String time = e.findElement(By.xpath("header/time")).getAttribute("datetime").toString();
 				//Commentary
 				String comment = e.findElement(By.xpath("div[@class='texto-comentario']/p[text()]")).getText();
 				
-				Commentary c = new Commentary(author, time, n, comment);
-				System.out.println(c.toString());
-				
-
+				Commentary c = new Commentary(commentaryAuthor, time, n, comment);
+				article.addCommentary(c);
 			}
 			
+			System.out.println(article);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		return article;
 	}
 
 }
