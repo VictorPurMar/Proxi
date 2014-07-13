@@ -16,7 +16,7 @@ public class Article {
 	// Constructor
 
 	public Article(String title, String subtitle, String author, String date,
-			String url) {
+			String url, String diary) {
 		super();
 		commentaries = new ArrayList<Commentary>();
 		this.title = title;
@@ -24,6 +24,7 @@ public class Article {
 		this.author = author;
 		this.date = date;
 		this.url = url;
+		this.diary = diary;
 	}
 	
 	// Public Methods
@@ -115,6 +116,15 @@ public class Article {
 		} else if (!url.equals(other.url))
 			return false;
 		return true;
+	}
+	
+	//To String
+	
+	@Override
+	public String toString() {
+		return "Title= " + title + "\nSubtitle= " + subtitle
+				+ "\nAuthor= " + author + "\nDate= " + date + "\nUrl= " + url
+				+ ", Diary= " + diary + " \nCommentaries\n" + commentaries + "";
 	}
 
 }
