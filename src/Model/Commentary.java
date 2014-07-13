@@ -78,7 +78,7 @@ public class Commentary {
 	
 	@Override
 	public String toString() {
-		return "Commentary [nickName=" + nickName + ", date=" + date
+		return "\nCommentary [nickName=" + nickName + ", date=" + date
 				+ ", number=" + number + ", commentary=" + commentary + "]";
 	}
 
