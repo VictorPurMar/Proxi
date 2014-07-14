@@ -9,11 +9,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 
 
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-public class ProxyMain implements MouseListener{
+public class ProxyMain implements MouseListener, ActionListener{
 
 
 	public static void main(String[] args) {
@@ -107,25 +111,39 @@ public class ProxyMain implements MouseListener{
     }
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {	
-		if (SwingUtilities.isRightMouseButton(arg0)){
-			Action copyAction = this.ta.getActionMap().get("copy");
-			Action cutAction = this.ta.getActionMap().get("cut");
-			Action pasteAction = this.ta.getActionMap().get("paste");
-			Action undoAction = this.ta.getActionMap().get("undo");
-			Action selectAllAction = this.ta.getActionMap().get("selectAll");
+	public void mouseClicked(MouseEvent e) {	
+		if (SwingUtilities.isRightMouseButton(e)){
+		    JPopupMenu menu = new JPopupMenu();	
+		    JMenuItem pasteAction = new JMenuItem("paste");
+		    pasteAction.addActionListener(this);
+		    menu.add(pasteAction);
+		    
+//		    JTable table = new JTable();
+//		    // set data model for the table...
+		  
+		    // sets the popup menu for the table
+		    ta.setComponentPopupMenu(menu);
+		    
+//			Action copyAction = this.ta.getActionMap().get("copy");
+//			Action cutAction = this.ta.getActionMap().get("cut");
+//			Action pasteAction = this.ta.getActionMap().get("paste");
+//			Action undoAction = this.ta.getActionMap().get("undo");
+//			Action selectAllAction = this.ta.getActionMap().get("selectAll");
+//			 
+//			PopUpDemo.add (undoAction);
+//			popup.addSeparator();
+//			popup.add (cutAction);
+//			 popup.add (copyAction);
+//			 popup.add (pasteAction);
+//			 popup.addSeperator();
+//			 popup.add (selectAllAction);
+//			return popup;
 		}
 
 
-//		 popup.add (undoAction);
-//		 popup.addSeparator();
-//		 popup.add (cutAction);
-//		 popup.add (copyAction);
-//		 popup.add (pasteAction);
-//		 popup.addSeperator();
-//		 popup.add (selectAllAction);
-//
-//		 return popup;
+
+
+		 
 	}
 
 	@Override
@@ -144,5 +162,11 @@ public class ProxyMain implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		this.ta.paste();
+		
+	}
 }
+
 
