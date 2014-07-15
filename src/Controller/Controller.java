@@ -5,18 +5,30 @@ import java.util.List;
 
 import Model.Article;
 import Model.ArticleParser;
+import View.ProxyMain;
 
 public class Controller {
 
 	private static Controller instance;
-	public List<String> analyzedUrls;
+	public List<String> analyzedUrls = null;
 	public List<Article> articles;
 	public ArticleParser ap;
 
 	public static void main(String[] args) {
 		Controller c = getInstance();
-		// load example data
-		c.exampleAnalyzedUrls();
+		ProxyMain pm = new ProxyMain(c);
+		
+		while (!pm.cont()){
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		pm.close();
+		System.out.println(c.analyzedUrls);
+		
 		c.parseUrls();
 		c.writeCSV();
 	}
@@ -54,11 +66,11 @@ public class Controller {
 	}
 
 	// example data
-	private void exampleAnalyzedUrls() {
-		this.analyzedUrls
-				.add("http://www.elmundo.es/ciencia/2014/07/10/53beb7d3ca4741f8298b4586.html");
-		this.analyzedUrls
-				.add("http://www.elmundo.es/espana/2014/07/13/53c248e6ca4741037c8b456d.html");
-	}
+//	private void exampleAnalyzedUrls() {
+////		this.analyzedUrls
+////				.add("http://www.elmundo.es/ciencia/2014/07/10/53beb7d3ca4741f8298b4586.html");
+////		this.analyzedUrls
+////				.add("http://www.elmundo.es/espana/2014/07/13/53c248e6ca4741037c8b456d.html");
+//	}
 
 }

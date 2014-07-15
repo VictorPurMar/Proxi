@@ -1,7 +1,6 @@
 package View;
 
-import javax.swing.Action;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,39 +9,36 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-
-
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
+
+import Controller.Controller;
 
 public class ProxyMain implements MouseListener, ActionListener{
 
-
-	public static void main(String[] args) {
-		new ProxyMain();
-
-	}
-	
     private JFrame jfSdi;
     private JPanel jPanel;
     private JLabel jlImatge;
     private JMenuBar jMenuBar;
     private JMenu jMenuMain, jMenuConfig;
-    private JMenuItem jmiMainObrir, jmiMainExit, jmiConfigWordList;
+    private JMenuItem jmiMainObrir, jmiMainExit, jmiConfigWordList, jmiPaste;
+    private JButton jbAnalyze;
     private JFileChooser jFileChooser;
-    JTextArea ta;
+    private JTextArea ta;
+    public ArrayList<String> urls = null;
+    public Controller c;
+    public boolean cont = false;
 
-    public ProxyMain() {
+    public ProxyMain(Controller c) {
+    	this.c = c;
         this.initComponents();
         this.registerListeners();
     }
@@ -50,7 +46,8 @@ public class ProxyMain implements MouseListener, ActionListener{
     private void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
-        this.jfSdi.setBounds(200, 200, 400, 400);
+        this.jfSdi.setSize(600, 400);
+//        this.jfSdi.setBounds(200, 200, 400, 400);
         this.jfSdi.setResizable(true);
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.jPanel = new JPanel();
@@ -82,7 +79,18 @@ public class ProxyMain implements MouseListener, ActionListener{
         
         ta = new JTextArea(20, 50);
         ta.addMouseListener(this);
-        this.jPanel.add(ta);
+        JScrollPane scroll = new JScrollPane (ta, 
+        		   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        jPanel.add(scroll);
+        
+        
+        //Button
+        this.jbAnalyze = new JButton("Analiza");
+        this.jbAnalyze.setAlignmentX(1);
+        this.jbAnalyze.addActionListener(this);
+        
+        this.jPanel.add(this.jbAnalyze);
         
         
         
@@ -114,36 +122,11 @@ public class ProxyMain implements MouseListener, ActionListener{
 	public void mouseClicked(MouseEvent e) {	
 		if (SwingUtilities.isRightMouseButton(e)){
 		    JPopupMenu menu = new JPopupMenu();	
-		    JMenuItem pasteAction = new JMenuItem("paste");
-		    pasteAction.addActionListener(this);
-		    menu.add(pasteAction);
-		    
-//		    JTable table = new JTable();
-//		    // set data model for the table...
-		  
-		    // sets the popup menu for the table
+		    jmiPaste = new JMenuItem("paste");
+		    jmiPaste.addActionListener(this);
+		    menu.add(jmiPaste);
 		    ta.setComponentPopupMenu(menu);
-		    
-//			Action copyAction = this.ta.getActionMap().get("copy");
-//			Action cutAction = this.ta.getActionMap().get("cut");
-//			Action pasteAction = this.ta.getActionMap().get("paste");
-//			Action undoAction = this.ta.getActionMap().get("undo");
-//			Action selectAllAction = this.ta.getActionMap().get("selectAll");
-//			 
-//			PopUpDemo.add (undoAction);
-//			popup.addSeparator();
-//			popup.add (cutAction);
-//			 popup.add (copyAction);
-//			 popup.add (pasteAction);
-//			 popup.addSeperator();
-//			 popup.add (selectAllAction);
-//			return popup;
-		}
-
-
-
-
-		 
+		} 
 	}
 
 	@Override
@@ -163,9 +146,36 @@ public class ProxyMain implements MouseListener, ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		this.ta.paste();
+	public void actionPerformed(ActionEvent event) {
+		if (event.getSource() == this.jmiPaste){
+			this.ta.paste();
+		}else if (event.getSource() == this.jbAnalyze){
+			analyzeTheUrls();
+			c.analyzedUrls = this.analyzeTheUrls();
+			this.cont = true;
+		}
 		
+	}
+
+	private ArrayList<String> analyzeTheUrls() {
+		ArrayList<String> urls = new ArrayList<String>();
+		String text = this.ta.getText();
+		text = text.replace("\n", " ").replace("\r", " ");
+		String[] allText = text.split(" ");
+		
+		for(int i = 0 ; i < allText.length ; i++){
+			if(allText[i].length()>10) urls.add(allText[i]);
+		}
+		return urls;
+	}
+	
+	public void close(){
+		this.jfSdi.dispose();
+	}
+
+	public boolean cont() {
+		// TODO Auto-generated method stub
+		return this.cont;
 	}
 }
 
