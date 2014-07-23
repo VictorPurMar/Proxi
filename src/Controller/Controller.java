@@ -6,6 +6,7 @@ import java.util.List;
 import Model.Article;
 import Model.ArticleParser;
 import View.ProxyMain;
+import View.ProxySecond;
 
 public class Controller {
 
@@ -29,8 +30,10 @@ public class Controller {
 		pm.close();
 		System.out.println(c.analyzedUrls);
 		
+		ProxySecond ps = new ProxySecond(c);
 		c.parseUrls();
 		c.writeCSV();
+		ps.close();
 	}
 
 	private void writeCSV() {
@@ -64,13 +67,5 @@ public class Controller {
 		// Closing the browser opened in Article Parser
 		this.ap.close();
 	}
-
-	// example data
-//	private void exampleAnalyzedUrls() {
-////		this.analyzedUrls
-////				.add("http://www.elmundo.es/ciencia/2014/07/10/53beb7d3ca4741f8298b4586.html");
-////		this.analyzedUrls
-////				.add("http://www.elmundo.es/espana/2014/07/13/53c248e6ca4741037c8b456d.html");
-//	}
 
 }
