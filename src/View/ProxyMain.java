@@ -1,5 +1,8 @@
 package View;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -12,7 +15,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -24,19 +30,24 @@ import Controller.Controller;
 
 public class ProxyMain implements MouseListener, ActionListener{
 
+	//Visual elements
     private JFrame jfSdi;
-    private JPanel jPanel;
-    private JLabel jlImatge;
+    private JPanel jPanel, buttonPane, textPane;
+    private JLabel jlInstructions;
     private JMenuBar jMenuBar;
     private JMenu jMenuMain, jMenuConfig;
-    private JMenuItem jmiMainObrir, jmiMainExit, jmiConfigWordList, jmiPaste;
-    private JButton jbAnalyze;
+    private JMenuItem jmiMainExit, jmiConfigWordList, jmiPaste;
+    private JButton jbAnalyze, jbExit;
     private JFileChooser jFileChooser;
     private JTextArea ta;
+    private JScrollPane scroll;
+    
+    //Non visual variables
     public ArrayList<String> urls = null;
     public Controller c;
     public boolean cont = false;
 
+    
     public ProxyMain(Controller c) {
     	this.c = c;
         this.initComponents();
@@ -46,13 +57,28 @@ public class ProxyMain implements MouseListener, ActionListener{
     private void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
-        this.jfSdi.setSize(600, 400);
-//        this.jfSdi.setBounds(200, 200, 400, 400);
-        this.jfSdi.setResizable(true);
+        this.jfSdi.setSize(600, 500);
+        this.jfSdi.setResizable(false);
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        //Add Nimbus Look and feel
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+        }
+        
+    
+        //Add panel
+        
         this.jPanel = new JPanel();
-        this.jlImatge = new JLabel();
-        this.jPanel.add(this.jlImatge);
+        this.jPanel.setLayout(new BoxLayout(this.jPanel, BoxLayout.PAGE_AXIS));
+        this.jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        
         this.jFileChooser = new JFileChooser();
         this.jFileChooser.setCurrentDirectory(new File("."));
        
@@ -68,31 +94,51 @@ public class ProxyMain implements MouseListener, ActionListener{
         this.jMenuMain.add(this.jmiMainExit);
         
         //Button 2
-        this.jMenuConfig = new JMenu("ConfiguraciÃ³n");
+        this.jMenuConfig = new JMenu("Configuración");
         this.jMenuBar.add(this.jMenuConfig);
         //2.1
         this.jmiConfigWordList = new JMenuItem("Palabras de control");
         this.jMenuConfig.add(this.jmiConfigWordList);
         
         
+        //Add Instructions
+        textPane = new JPanel();
+        textPane.setLayout(new BorderLayout());
+        jlInstructions = new JLabel("Introduce las urls que quieres buscar:");
+        textPane.add(jlInstructions);
+        
         //Add Text Area
         
-        ta = new JTextArea(20, 50);
+        ta = new JTextArea(20, 45);
         ta.addMouseListener(this);
-        JScrollPane scroll = new JScrollPane (ta, 
+        scroll = new JScrollPane (ta, 
         		   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        ta.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        jPanel.add(scroll);
         
-        
-        //Button
-        this.jbAnalyze = new JButton("Analiza");
-        this.jbAnalyze.setAlignmentX(1);
+        //Buttons
+        this.jbAnalyze = new JButton("Analizar");
         this.jbAnalyze.addActionListener(this);
         
-        this.jPanel.add(this.jbAnalyze);
+        this.jbExit = new JButton("Salir");
+        this.jbExit.addActionListener(this);
+        this.jbExit.setPreferredSize(this.jbAnalyze.getPreferredSize());
         
+        //Button Pane
+        this.buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        buttonPane.add(Box.createHorizontalGlue());
+        buttonPane.add(jbExit);      
+        buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPane.add(jbAnalyze);
+
         
+        this.jPanel.add(textPane);
+        this.jPanel.add(scroll);
+        this.jPanel.add(buttonPane);
+        
+ 
         
         //Add panel to principal frame
         this.jfSdi.add(this.jPanel);
@@ -100,16 +146,6 @@ public class ProxyMain implements MouseListener, ActionListener{
     }
 
     private void registerListeners() {
-//        this.jmiObrir.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(final ActionEvent evt) {
-//                final int r = jFileChooser.showOpenDialog(jfSdi);
-//                if (r == JFileChooser.APPROVE_OPTION) {
-//                    final String pathImatge = jFileChooser.getSelectedFile().getPath();
-//                    jlImatge.setIcon(new ImageIcon(pathImatge));
-//                }
-//            }
-//        });
         this.jmiMainExit.addActionListener(new ActionListener() {
 
             public void actionPerformed(final ActionEvent event) {
@@ -153,6 +189,8 @@ public class ProxyMain implements MouseListener, ActionListener{
 			analyzeTheUrls();
 			c.analyzedUrls = this.analyzeTheUrls();
 			this.cont = true;
+		}else if (event.getSource() == this.jbExit){
+			System.exit(0);
 		}
 		
 	}

@@ -9,15 +9,18 @@ import Model.Article;
 public class ProxiCSVWriter {
 
 	public static void makeTheCSV(Article article) {
+		//Serial Excel CSV divider
 		final String divider = ";";
 
 		String name = article.getDate().replaceAll("-", "")
 				+ "_"
 				+ article.getTitle().replaceAll("^[0-9,.;:-_'\\s]+$", "").replaceAll("\\s+","")
-						.substring(0, 20) + ".xml";
+						.substring(0, 20) + ".csv";
 		try {
-//			PrintWriter writer = new PrintWriter(name, "ISO-8859-3");
 			PrintWriter writer = new PrintWriter(name, "UTF-8");
+			//Add BOM character to Excel character compatibility
+			writer.print('\ufeff');
+			
 			writer.println("ARTÍCULO");
 			writer.println();
 			writer.println("Titulo" + divider + article.getTitle());
@@ -36,7 +39,9 @@ public class ProxiCSVWriter {
 						+ divider
 						+ article.getCommentaries().get(i).getNickName()
 						+ divider
-						+ article.getCommentaries().get(i).getCommentary());
+						//Change the ";" character to ":"
+						//To the csv correct behaviour
+						+ article.getCommentaries().get(i).getCommentary().replace(divider, ":"));
 			}
 			writer.close();
 
