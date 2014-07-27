@@ -11,7 +11,6 @@ public class Diary {
 	private String subtitleRegEx;
 	private String authorRegEx;
 	private String dateRegEx;
-	private String urlRegEx;
 	private String diaryNameRegEx;
 	
 	//Commentary data
@@ -25,8 +24,7 @@ public class Diary {
 	
 	public Diary(String diaryName, boolean expandableCommentaries,
 			String titleRegEx, String subtitleRegEx,
-			String authorRegEx, String dateRegEx, String urlRegEx,
-			String diaryNameRegEx, String commentaryRegEx,
+			String authorRegEx, String dateRegEx,  String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
@@ -36,7 +34,6 @@ public class Diary {
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
 		this.dateRegEx = dateRegEx;
-		this.urlRegEx = urlRegEx;
 		this.diaryNameRegEx = diaryNameRegEx;
 		this.commentaryRegEx = commentaryRegEx;
 		this.commentNumberRegEx = commentNumberRegEx;
@@ -102,14 +99,6 @@ public class Diary {
 
 	public void setDateRegEx(String dateRegEx) {
 		this.dateRegEx = dateRegEx;
-	}
-
-	public String getUrlRegEx() {
-		return urlRegEx;
-	}
-
-	public void setUrlRegEx(String urlRegEx) {
-		this.urlRegEx = urlRegEx;
 	}
 
 	public String getDiaryNameRegEx() {
@@ -195,8 +184,7 @@ public class Diary {
 		return "Diary [diaryName=" + diaryName + ", expandableCommentaries="
 				+ expandableCommentaries + ", nextButton=" + nextButton + ", titleRegEx=" + titleRegEx
 				+ ", subtitleRegEx=" + subtitleRegEx + ", authorRegEx="
-				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", urlRegEx="
-				+ urlRegEx + ", diaryNameRegEx=" + diaryNameRegEx
+				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", diaryNameRegEx=" + diaryNameRegEx
 				+ ", commentaryRegEx=" + commentaryRegEx
 				+ ", commentNumberRegEx=" + commentNumberRegEx
 				+ ", commentAuthorRegEx=" + commentAuthorRegEx
