@@ -1,35 +1,40 @@
 package Model;
 
 public class Diary {
-	
+
+	// General data
 	private String diaryName;
+	private String diaryBasicUrl;
 	private boolean expandableCommentaries;
 	private String nextButton;
-	
-	//General data
+
+	// General data (Regular Expression)
 	private String titleRegEx;
 	private String subtitleRegEx;
 	private String authorRegEx;
 	private String dateRegEx;
 	private String diaryNameRegEx;
-	
-	//Commentary data
+
+	// Commentary data (Regular Expression)
 	private String commentaryRegEx;
 	private String commentNumberRegEx;
 	private String commentAuthorRegEx;
 	private String commentTimeRegEx;
 	private String commentTextRegEx;
-	
-	//Constructor
-	
-	public Diary(String diaryName, boolean expandableCommentaries,
-			String titleRegEx, String subtitleRegEx,
-			String authorRegEx, String dateRegEx,  String diaryNameRegEx, String commentaryRegEx,
+
+	// Constructor
+
+	public Diary(String diaryName, String diaryBasicUrl,
+			boolean expandableCommentaries, String nextButton,
+			String titleRegEx, String subtitleRegEx, String authorRegEx,
+			String dateRegEx, String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
 		this.diaryName = diaryName;
+		this.diaryBasicUrl = diaryBasicUrl;
 		this.expandableCommentaries = expandableCommentaries;
+		this.nextButton = nextButton;
 		this.titleRegEx = titleRegEx;
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
@@ -41,16 +46,23 @@ public class Diary {
 		this.commentTimeRegEx = commentTimeRegEx;
 		this.commentTextRegEx = commentTextRegEx;
 	}
-	
-	//Getters and Setters
 
-	
+	// Getters and Setters
+
 	public String getDiaryName() {
 		return diaryName;
 	}
-	
+
 	public void setDiaryName(String diaryName) {
 		this.diaryName = diaryName;
+	}
+
+	public String getDiaryBasicUrl() {
+		return diaryBasicUrl;
+	}
+
+	public void setDiaryBasicUrl(String diaryBasicUrl) {
+		this.diaryBasicUrl = diaryBasicUrl;
 	}
 
 	public String getNextButton() {
@@ -68,7 +80,7 @@ public class Diary {
 	public void setExpandableCommentaries(boolean expandableCommentaries) {
 		this.expandableCommentaries = expandableCommentaries;
 	}
-	
+
 	public String getTitleRegEx() {
 		return titleRegEx;
 	}
@@ -148,7 +160,7 @@ public class Diary {
 	public void setCommentTextRegEx(String commentTextRegEx) {
 		this.commentTextRegEx = commentTextRegEx;
 	}
-	
+
 	// Equals and HashCode
 
 	@Override
@@ -176,24 +188,22 @@ public class Diary {
 			return false;
 		return true;
 	}
-	
-	//To String
+
+	// To String
 
 	@Override
 	public String toString() {
-		return "Diary [diaryName=" + diaryName + ", expandableCommentaries="
-				+ expandableCommentaries + ", nextButton=" + nextButton + ", titleRegEx=" + titleRegEx
-				+ ", subtitleRegEx=" + subtitleRegEx + ", authorRegEx="
-				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", diaryNameRegEx=" + diaryNameRegEx
-				+ ", commentaryRegEx=" + commentaryRegEx
+		return "Diary [diaryName=" + diaryName + ", diaryBasicUrl ="
+				+ diaryBasicUrl + ", expandableCommentaries="
+				+ expandableCommentaries + ", nextButton=" + nextButton
+				+ ", titleRegEx=" + titleRegEx + ", subtitleRegEx="
+				+ subtitleRegEx + ", authorRegEx=" + authorRegEx
+				+ ", dateRegEx=" + dateRegEx + ", diaryNameRegEx="
+				+ diaryNameRegEx + ", commentaryRegEx=" + commentaryRegEx
 				+ ", commentNumberRegEx=" + commentNumberRegEx
 				+ ", commentAuthorRegEx=" + commentAuthorRegEx
 				+ ", commentTimeRegEx=" + commentTimeRegEx
 				+ ", commentTextRegEx=" + commentTextRegEx + "]";
 	}
 
-	
-	
-	
-	
 }
