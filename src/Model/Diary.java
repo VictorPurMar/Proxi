@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Diary {
 
 	// General data
@@ -31,6 +34,7 @@ public class Diary {
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
+
 		this.diaryName = diaryName;
 		this.diaryBasicUrl = diaryBasicUrl;
 		this.expandableCommentaries = expandableCommentaries;
