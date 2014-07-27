@@ -4,7 +4,6 @@ public class Diary {
 	
 	private String diaryName;
 	private boolean expandableCommentaries;
-	private String expandButton;
 	private String nextButton;
 	
 	//General data
@@ -25,7 +24,7 @@ public class Diary {
 	//Constructor
 	
 	public Diary(String diaryName, boolean expandableCommentaries,
-			String expandButton, String titleRegEx, String subtitleRegEx,
+			String titleRegEx, String subtitleRegEx,
 			String authorRegEx, String dateRegEx, String urlRegEx,
 			String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
@@ -33,7 +32,6 @@ public class Diary {
 		super();
 		this.diaryName = diaryName;
 		this.expandableCommentaries = expandableCommentaries;
-		this.expandButton = expandButton;
 		this.titleRegEx = titleRegEx;
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
@@ -56,14 +54,6 @@ public class Diary {
 	
 	public void setDiaryName(String diaryName) {
 		this.diaryName = diaryName;
-	}
-
-	public String getExpandButton() {
-		return expandButton;
-	}
-
-	public void setExpandButton(String expandButton) {
-		this.expandButton = expandButton;
 	}
 
 	public String getNextButton() {
@@ -203,8 +193,7 @@ public class Diary {
 	@Override
 	public String toString() {
 		return "Diary [diaryName=" + diaryName + ", expandableCommentaries="
-				+ expandableCommentaries + ", expandButton=" + expandButton
-				+ ", nextButton=" + nextButton + ", titleRegEx=" + titleRegEx
+				+ expandableCommentaries + ", nextButton=" + nextButton + ", titleRegEx=" + titleRegEx
 				+ ", subtitleRegEx=" + subtitleRegEx + ", authorRegEx="
 				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", urlRegEx="
 				+ urlRegEx + ", diaryNameRegEx=" + diaryNameRegEx
