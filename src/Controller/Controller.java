@@ -9,11 +9,13 @@ import View.ProxyMain;
 import View.ProxySecond;
 
 public class Controller {
-
+	
 	private static Controller instance;
 	public List<String> analyzedUrls = null;
 	public List<Article> articles;
 	public ArticleParser ap;
+	
+	private static final int WAIT_FOR_ACTION = 400;
 
 	public static void main(String[] args) {
 		Controller c = getInstance();
@@ -21,7 +23,7 @@ public class Controller {
 		
 		while (!pm.cont()){
 			try {
-				Thread.sleep(100);
+				Thread.sleep(WAIT_FOR_ACTION);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
