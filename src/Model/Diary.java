@@ -3,6 +3,7 @@ package Model;
 public class Diary {
 	
 	private String diaryName;
+	private boolean expandableCommentaries;
 	
 	//General data
 	private String titleRegEx;
@@ -21,13 +22,14 @@ public class Diary {
 	
 	//Constructor
 	
-	public Diary(String diaryName, String titleRegEx, String subtitleRegEx,
+	public Diary(String diaryName, boolean expandableCommentaries, String titleRegEx, String subtitleRegEx,
 			String authorRegEx, String dateRegEx, String urlRegEx,
 			String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
 		this.diaryName = diaryName;
+		this.expandableCommentaries = expandableCommentaries;
 		this.titleRegEx = titleRegEx;
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
@@ -51,6 +53,14 @@ public class Diary {
 		this.diaryName = diaryName;
 	}
 
+	public boolean isExpandableCommentaries() {
+		return expandableCommentaries;
+	}
+
+	public void setExpandableCommentaries(boolean expandableCommentaries) {
+		this.expandableCommentaries = expandableCommentaries;
+	}
+	
 	public String getTitleRegEx() {
 		return titleRegEx;
 	}
@@ -171,7 +181,8 @@ public class Diary {
 
 	@Override
 	public String toString() {
-		return "Diary [diaryName=" + diaryName + ", titleRegEx=" + titleRegEx
+		return "Diary [diaryName=" + diaryName + ", expandableCommentaries="
+				+ expandableCommentaries + ", titleRegEx=" + titleRegEx
 				+ ", subtitleRegEx=" + subtitleRegEx + ", authorRegEx="
 				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", urlRegEx="
 				+ urlRegEx + ", diaryNameRegEx=" + diaryNameRegEx
