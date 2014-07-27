@@ -52,7 +52,7 @@ public class ProxiCSVWriter {
 						+ divider
 						//Change the ";" character to ":"
 						//To the csv correct behaviour
-						+ article.getCommentaries().get(i).getCommentary().replace(divider, ":"));
+						+ article.getCommentaries().get(i).getCommentary().replace(divider, ":").replace("\"", ""));
 			}
 			writer.close();
 
