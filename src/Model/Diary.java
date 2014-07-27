@@ -4,6 +4,8 @@ public class Diary {
 	
 	private String diaryName;
 	private boolean expandableCommentaries;
+	private String expandButton;
+	private String nextButton;
 	
 	//General data
 	private String titleRegEx;
@@ -22,7 +24,8 @@ public class Diary {
 	
 	//Constructor
 	
-	public Diary(String diaryName, boolean expandableCommentaries, String titleRegEx, String subtitleRegEx,
+	public Diary(String diaryName, boolean expandableCommentaries,
+			String expandButton, String titleRegEx, String subtitleRegEx,
 			String authorRegEx, String dateRegEx, String urlRegEx,
 			String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
@@ -30,6 +33,7 @@ public class Diary {
 		super();
 		this.diaryName = diaryName;
 		this.expandableCommentaries = expandableCommentaries;
+		this.expandButton = expandButton;
 		this.titleRegEx = titleRegEx;
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
@@ -45,12 +49,29 @@ public class Diary {
 	
 	//Getters and Setters
 
+	
 	public String getDiaryName() {
 		return diaryName;
 	}
-
+	
 	public void setDiaryName(String diaryName) {
 		this.diaryName = diaryName;
+	}
+
+	public String getExpandButton() {
+		return expandButton;
+	}
+
+	public void setExpandButton(String expandButton) {
+		this.expandButton = expandButton;
+	}
+
+	public String getNextButton() {
+		return nextButton;
+	}
+
+	public void setNextButton(String nextButton) {
+		this.nextButton = nextButton;
 	}
 
 	public boolean isExpandableCommentaries() {
@@ -182,7 +203,8 @@ public class Diary {
 	@Override
 	public String toString() {
 		return "Diary [diaryName=" + diaryName + ", expandableCommentaries="
-				+ expandableCommentaries + ", titleRegEx=" + titleRegEx
+				+ expandableCommentaries + ", expandButton=" + expandButton
+				+ ", nextButton=" + nextButton + ", titleRegEx=" + titleRegEx
 				+ ", subtitleRegEx=" + subtitleRegEx + ", authorRegEx="
 				+ authorRegEx + ", dateRegEx=" + dateRegEx + ", urlRegEx="
 				+ urlRegEx + ", diaryNameRegEx=" + diaryNameRegEx
@@ -192,6 +214,7 @@ public class Diary {
 				+ ", commentTimeRegEx=" + commentTimeRegEx
 				+ ", commentTextRegEx=" + commentTextRegEx + "]";
 	}
+
 	
 	
 	
