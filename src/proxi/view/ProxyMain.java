@@ -27,6 +27,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import proxi.controller.Controller;
 
@@ -45,7 +46,7 @@ public class ProxyMain implements MouseListener, ActionListener{
     private JScrollPane scroll;
     
     //Non visual variables
-    public ArrayList<String> urls = null;
+    public HashSet<String> urls = null;
     public Controller c;
     public boolean cont = false;
 
@@ -197,8 +198,8 @@ public class ProxyMain implements MouseListener, ActionListener{
 		
 	}
 
-	private ArrayList<String> analyzeTheUrls() {
-		ArrayList<String> urls = new ArrayList<String>();
+	private HashSet<String> analyzeTheUrls() {
+		HashSet<String> urls = new HashSet<String>();
 		String text = this.ta.getText();
 		text = text.replace("\n", " ").replace("\r", " ");
 		String[] allText = text.split(" ");

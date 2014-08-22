@@ -18,18 +18,16 @@ import proxi.model.objects.*;
 public class ArticleParser {
 
 	private String analyzedUrl;
-	private List<Diary> diaries;
 	private Diary diary;
 	private static WebDriver driver;
 	
-	public ArticleParser(List<Diary> diaries){
-		this.diaries = diaries;
+	public ArticleParser(){
 	}
 	
-	public Article run(String url) {
+	public Article run(String url, Diary diary) {
 		Article ar = null;
+		this.diary = diary;
 		this.analyzedUrl = url;
-		
 		
 		//Open or reuse the browser
 		if (driver == null) {
@@ -37,23 +35,6 @@ public class ArticleParser {
 			driver.manage().window().setSize(new Dimension(100, 100));
 		}
 		
-		
-		for (int i = 0; i < this.diaries.size(); i++){
-			if (analyzedUrl.contains(this.diaries.get(i).getDiaryBasicUrl())){
-				this.diary = this.diaries.get(i);
-			}
-		}
-		
-		System.out.println(this.diary.toString());
-		
-//		// Filter the parser depending the url
-//		if (analyzedUrl.contains("www.elmundo.es")) {
-//			ar = mundoParser();
-//		} else if (analyzedUrl.contains("elpais.com")) {
-//			ar = paisParser();
-//		} else if (analyzedUrl.contains("www.20minutos.es")) {
-//			ar = minutosParser();
-//		}
 		ar = parserController();
 
 		// Order the commentaries by number

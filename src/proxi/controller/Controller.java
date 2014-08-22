@@ -1,27 +1,66 @@
 package proxi.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import proxi.model.*;
 import proxi.model.objects.*;
 import proxi.view.*;
 
-
 public class Controller {
 
 	private static Controller instance;
-	public List<String> analyzedUrls = null;
-	public List<Diary> diaries;
-	public List<Article> articles;
-	public ArticleParser ap;
+	public Set<String> analyzedUrls = null;
+//	private List<String> errorUrls;
+	private List<Diary> diaries;
+	private List<Article> articles;
 
 	private static final int WAIT_FOR_ACTION = 400;
 
 	public static void main(String[] args) {
+
 		Controller c = getInstance();
+
+		// Obtain the diaries list
+		c.getTheDiaries();
+
+		// Initialize the interface
+		// The view fill the analyzedUrls list with the urls
+		ProxySecond ps = initInterface(c);
+
+		c.diaryInflater();
+
+		// To develope
+		// c.showError();
+
+		c.diaryAnalyzer();
+		c.writeCSV();
+		ps.close();
+	}
+
+	private void diaryInflater() {
+		Iterator<String> iterator = null;
+		for (int i = 0; i < this.diaries.size(); i++) {
+			Diary diary = this.diaries.get(i);
+			iterator = this.analyzedUrls.iterator();
+			while (iterator.hasNext()) {
+				String url = iterator.next();
+				if (url.contains(diary.getDiaryBasicUrl())) {
+					diary.addUrl(url);
+				}
+			}
+//			System.out.println(diary.getUrls());
+		}
+
+	}
+
+	private static ProxySecond initInterface(Controller c) {
 		ProxyMain pm = new ProxyMain(c);
 
+		// The interface will wait to response
 		while (!pm.cont()) {
 			try {
 				Thread.sleep(WAIT_FOR_ACTION);
@@ -31,16 +70,10 @@ public class Controller {
 			}
 		}
 		pm.close();
-		System.out.println(c.analyzedUrls);
-
-		// Obtain the diaries list
-		c.getTheDiaries();
+//		System.out.println(c.analyzedUrls);
 
 		ProxySecond ps = new ProxySecond(c);
-
-		c.parseUrls();
-		c.writeCSV();
-		ps.close();
+		return ps;
 	}
 
 	private void writeCSV() {
@@ -60,21 +93,34 @@ public class Controller {
 
 	// Constructor
 	public Controller() {
-		this.analyzedUrls = new ArrayList<String>();
+		this.analyzedUrls = new HashSet<String>();
+//		this.errorUrls = new ArrayList<String>();
 		this.articles = new ArrayList<Article>();
 		this.diaries = new ArrayList<Diary>();
-		this.ap = new ArticleParser(this.diaries);
-
 	}
 
-	private void parseUrls() {
-		for (int i = 0; i < this.analyzedUrls.size(); i++) {
-			Article ar = this.ap.run(this.analyzedUrls.get(i));
-			articles.add(ar);
+	private void diaryAnalyzer() {
+		
+		ArticleParser ap = new ArticleParser();
+		
+		for (int i = 0 ; i < this.diaries.size() ; i++){
+			Diary diary = this.diaries.get(i);
+			List<String> urlsList = diary.getUrls();
+			for (int j = 0; j < urlsList.size() ;  j++){
+				Article article = ap.run(urlsList.get(j), diary);
+				articles.add(article);
+			}
 		}
-		System.out.println(this.articles.toString());
-		// Closing the browser opened in Article Parser
-		this.ap.close();
+		
+		ap.close();
+		
+		// for (int i = 0; i < this.analyzedUrls.size(); i++) {
+		// Article ar = this.ap.run(this.analyzedUrls.get(i));
+		// articles.add(ar);
+		// }
+		// System.out.println(this.articles.toString());
+		// // Closing the browser opened in Article Parser
+		// this.ap.close();
 	}
 
 	private void getTheDiaries() {
@@ -92,8 +138,7 @@ public class Controller {
 				"//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
 				"//h1[@itemprop='headline']", "//p[@class='antetitulo']",
 				"//footer/address//span[@itemprop='name']", "//footer/time",
-				"El Mundo",
-				"//div[@id='listado_comentarios']/section/article",
+				"El Mundo", "//div[@id='listado_comentarios']/section/article",
 				"header/h1/a[text()]",
 				"header/div[@class='autor']/span[text()]", "header/time",
 				"div[@class='texto-comentario']/p[text()]");
