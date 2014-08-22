@@ -3,15 +3,20 @@ package proxi.model.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Diary {
 
-	// General data
+	// COMMON DATA
 	private String diaryName;
 	private String diaryBasicUrl;
+	private List<String> urls;
 	private boolean expandableCommentaries;
-	private String nextButton;
+	private String nextButton; //RegEx
 
-	// General data (Regular Expression)
+	
+	//SPECIFIC DATA INFLATER
+	
+	// Article data (Regular Expression)
 	private String titleRegEx;
 	private String subtitleRegEx;
 	private String authorRegEx;
@@ -34,6 +39,8 @@ public class Diary {
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
+		
+		this.urls = new ArrayList<String>();
 
 		this.diaryName = diaryName;
 		this.diaryBasicUrl = diaryBasicUrl;
@@ -49,6 +56,12 @@ public class Diary {
 		this.commentAuthorRegEx = commentAuthorRegEx;
 		this.commentTimeRegEx = commentTimeRegEx;
 		this.commentTextRegEx = commentTextRegEx;
+	}
+	
+	// Public methods
+	
+	public boolean addUrl(String url){
+		return this.urls.add(url);
 	}
 
 	// Getters and Setters
@@ -67,6 +80,14 @@ public class Diary {
 
 	public void setDiaryBasicUrl(String diaryBasicUrl) {
 		this.diaryBasicUrl = diaryBasicUrl;
+	}
+	
+	public List<String> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(List<String> urls) {
+		this.urls = urls;
 	}
 
 	public String getNextButton() {
