@@ -1,4 +1,4 @@
-package Model;
+package proxi.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +11,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import proxi.model.objects.*;
+
 
 public class ArticleParser {
 

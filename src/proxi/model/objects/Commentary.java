@@ -1,4 +1,4 @@
-package Model;
+package proxi.model.objects;
 
 public class Commentary {
 

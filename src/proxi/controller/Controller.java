@@ -1,13 +1,12 @@
-package Controller;
+package proxi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Article;
-import Model.ArticleParser;
-import Model.Diary;
-import View.ProxyMain;
-import View.ProxySecond;
+import proxi.model.*;
+import proxi.model.objects.*;
+import proxi.view.*;
+
 
 public class Controller {
 

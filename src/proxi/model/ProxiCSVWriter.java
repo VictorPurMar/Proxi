@@ -1,12 +1,13 @@
-package Controller;
+package proxi.model;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import proxi.model.objects.Article;
 
-import Model.Article;
+
 
 public class ProxiCSVWriter {
 

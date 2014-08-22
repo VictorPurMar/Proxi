@@ -1,4 +1,4 @@
-package Model;
+package proxi.model.objects;
 
 import java.util.ArrayList;
 import java.util.List;
