@@ -10,11 +10,13 @@ public class Diary {
 	private String diaryName;
 	private String diaryBasicUrl;
 	private List<String> urls;
-	private boolean expandableCommentaries;
-	private String nextButton; //RegEx
-
 	
 	//SPECIFIC DATA INFLATER
+	
+	// Commentary Display
+	private int displayType;
+	private String showComments;//RegEx
+	private String nextButton; //RegEx
 	
 	// Article data (Regular Expression)
 	private String titleRegEx;
@@ -22,7 +24,7 @@ public class Diary {
 	private String authorRegEx;
 	private String dateRegEx;
 	private String diaryNameRegEx;
-
+	
 	// Commentary data (Regular Expression)
 	private String commentaryRegEx;
 	private String commentNumberRegEx;
@@ -32,8 +34,8 @@ public class Diary {
 
 	// Constructor
 
-	public Diary(String diaryName, String diaryBasicUrl,
-			boolean expandableCommentaries, String nextButton,
+	public Diary(String diaryName, String diaryBasicUrl, int displayType,
+			String showComments, String nextButton,
 			String titleRegEx, String subtitleRegEx, String authorRegEx,
 			String dateRegEx, String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
@@ -44,7 +46,8 @@ public class Diary {
 
 		this.diaryName = diaryName;
 		this.diaryBasicUrl = diaryBasicUrl;
-		this.expandableCommentaries = expandableCommentaries;
+		this.displayType = displayType;
+		this.showComments = showComments;
 		this.nextButton = nextButton;
 		this.titleRegEx = titleRegEx;
 		this.subtitleRegEx = subtitleRegEx;
@@ -89,6 +92,22 @@ public class Diary {
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
 	}
+	
+	public int getDisplayType() {
+		return displayType;
+	}
+
+	public void setDisplayType(int displayType) {
+		this.displayType = displayType;
+	}
+
+	public String getShowComments() {
+		return showComments;
+	}
+
+	public void setShowComments(String showComments) {
+		this.showComments = showComments;
+	}
 
 	public String getNextButton() {
 		return nextButton;
@@ -96,14 +115,6 @@ public class Diary {
 
 	public void setNextButton(String nextButton) {
 		this.nextButton = nextButton;
-	}
-
-	public boolean isExpandableCommentaries() {
-		return expandableCommentaries;
-	}
-
-	public void setExpandableCommentaries(boolean expandableCommentaries) {
-		this.expandableCommentaries = expandableCommentaries;
 	}
 
 	public String getTitleRegEx() {
@@ -219,8 +230,8 @@ public class Diary {
 	@Override
 	public String toString() {
 		return "Diary [diaryName=" + diaryName + ", diaryBasicUrl ="
-				+ diaryBasicUrl + ", expandableCommentaries="
-				+ expandableCommentaries + ", nextButton=" + nextButton
+				+ diaryBasicUrl + ", displayType="
+				+ displayType + ", showComments=" + showComments + ", nextButton=" + nextButton
 				+ ", titleRegEx=" + titleRegEx + ", subtitleRegEx="
 				+ subtitleRegEx + ", authorRegEx=" + authorRegEx
 				+ ", dateRegEx=" + dateRegEx + ", diaryNameRegEx="
@@ -230,5 +241,4 @@ public class Diary {
 				+ ", commentTimeRegEx=" + commentTimeRegEx
 				+ ", commentTextRegEx=" + commentTextRegEx + "]";
 	}
-
 }

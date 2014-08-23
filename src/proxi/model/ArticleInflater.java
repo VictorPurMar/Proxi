@@ -91,11 +91,22 @@ public class ArticleInflater {
 	}
 
 	private Article commentInflater(Article article) {
-		// Repeat the show more click until all the commentaries are showed
-		loopNextClicker();
+		int commentDisplayType = this.diary.getDisplayType();
+		System.out.println("" + commentDisplayType);
+		
+		if (commentDisplayType == 1){
+			
+		}else if (commentDisplayType == 2){
+			 //Repeat the show more click until all the commentaries are showed
+			loopNextClicker();
 
-		// Article Commentaries adder
-		article = showedCommentsFiller(article);
+			// Article Commentaries adder
+			article = showedCommentsFiller(article);
+		}else if (commentDisplayType == 3){
+			
+		}else if (commentDisplayType == 4){
+			
+		}
 		return article;
 	}
 

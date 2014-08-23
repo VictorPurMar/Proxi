@@ -77,7 +77,7 @@ public class DiariesController {
 		// commentNumberRegEx, commentAuthorRegEx, commentTimeRegEx,
 		// commentTextRegEx);
 
-		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", true,
+		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null,
 				"//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
 				"//h1[@itemprop='headline']", "//p[@class='antetitulo']",
 				"//footer/address//span[@itemprop='name']", "//footer/time",
