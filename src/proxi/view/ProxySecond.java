@@ -11,18 +11,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+//import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import proxi.controller.Controller;
@@ -39,7 +37,7 @@ public class ProxySecond implements ActionListener{
     private JButton jbAnalyze, jbExit;
     private JFileChooser jFileChooser;
     private JTextArea ta;
-    private JScrollPane scroll;
+//    private JScrollPane scroll;
     
     //Non visual variables
     public HashSet<String> urls = null;
