@@ -101,7 +101,7 @@ public class Controller {
 
 	private void diaryAnalyzer() {
 		
-		ArticleParser ap = new ArticleParser();
+		ArticleInflater ap = new ArticleInflater();
 		
 		for (int i = 0 ; i < this.diaries.size() ; i++){
 			Diary diary = this.diaries.get(i);
@@ -142,6 +142,8 @@ public class Controller {
 				"header/h1/a[text()]",
 				"header/div[@class='autor']/span[text()]", "header/time",
 				"div[@class='texto-comentario']/p[text()]");
+		
+//		Diary elPais = new Diary("El Pais", "www.elpais.com" , false, )
 
 		this.diaries.add(elMundo);
 	}
