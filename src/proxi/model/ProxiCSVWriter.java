@@ -11,6 +11,7 @@ import proxi.model.objects.Article;
 
 public class ProxiCSVWriter {
 
+	@SuppressWarnings("deprecation")
 	public static void makeTheCSV(Article article) {
 		//Serial Excel CSV divider
 		final String divider = ";";

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -14,86 +13,82 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import proxi.model.objects.*;
 
-
 public class ArticleInflater {
 
 	private String analyzedUrl;
 	private Diary diary;
 	private static WebDriver driver;
-	
-	//Constructor
-	
-	public ArticleInflater(){
-	}
-	
 
-	//Public Methods
-	
+	// Constructor
+
+	public ArticleInflater() {
+	}
+
+	// Public Methods
+
 	public Article run(String url, Diary diary) {
-		
+
 		this.diary = diary;
 		this.analyzedUrl = url;
-		
-		//Open or reuse the browser
+
+		// Open or reuse the browser
 		if (driver == null) {
 			driver = new FirefoxDriver();
 			driver.manage().window().setSize(new Dimension(100, 100));
 		}
-		
+
 		Article article = articleController();
 
-		//Order the article commentaries
+		// Order the article commentaries
 		orderByTime(article);
 
 		return article;
 	}
-	
+
 	public void close() {
 		driver.close();
 	}
 
-	//Private methods
-	
+	// Private methods
+
 	private Article articleController() {
-		Article article = null ;
-		
+		Article article = null;
+
 		try {
 			driver.get(analyzedUrl);
 
 			// Article maker and basic data inflater
 			article = articleBasicMaker();
-			
+
 			// Article commentary inflater
 			article = commentInflater(article);
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return article;
 	}
-	
+
 	private Article articleBasicMaker() {
-		
+
 		// Article common data inflater
-		String title = driver.findElement(
-				By.xpath(this.diary.getTitleRegEx())).getText();
+		String title = driver.findElement(By.xpath(this.diary.getTitleRegEx()))
+				.getText();
 		String subtitle = driver.findElement(
 				By.xpath(this.diary.getSubtitleRegEx())).getText();
 		String author = driver.findElement(
-				By.xpath(this.diary.getAuthorRegEx()))
-				.getText();
+				By.xpath(this.diary.getAuthorRegEx())).getText();
 		String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
 				.getAttribute("datetime");
 		String url = analyzedUrl;
-		
+
 		String[] cleanDiary = analyzedUrl.split("/");
 		String diary = cleanDiary[2];
-		
-		//Making the article
+
+		// Making the article
 		Article article = new Article(title, subtitle, author, date, url, diary);
 		return article;
-	}	
+	}
 
 	private Article commentInflater(Article article) {
 		// Repeat the show more click until all the commentaries are showed
@@ -103,7 +98,7 @@ public class ArticleInflater {
 		article = showedCommentsFiller(article);
 		return article;
 	}
-	
+
 	private void loopNextClicker() {
 		Boolean exit = false;
 		while (!exit) {
@@ -111,9 +106,8 @@ public class ArticleInflater {
 				Thread.sleep(200); // Correct one unexpected behavior and
 									// allow to process the URL to the
 									// browser
-				WebElement element = driver
-						.findElement(By
-								.xpath(this.diary.getNextButton()));
+				WebElement element = driver.findElement(By.xpath(this.diary
+						.getNextButton()));
 				element.click();
 			} catch (Exception e) {
 				exit = true;
@@ -122,10 +116,8 @@ public class ArticleInflater {
 	}
 
 	private Article showedCommentsFiller(Article article) {
-		Iterator<WebElement> commentary = driver
-				.findElements(
-						By.xpath(this.diary.getCommentaryRegEx()))
-				.iterator();
+		Iterator<WebElement> commentary = driver.findElements(
+				By.xpath(this.diary.getCommentaryRegEx())).iterator();
 
 		while (commentary.hasNext()) {
 			WebElement e = commentary.next();
@@ -135,27 +127,26 @@ public class ArticleInflater {
 					By.xpath(this.diary.getCommentNumberRegEx())).getText());
 			// Author
 			String commentaryAuthor = e.findElement(
-					By.xpath(this.diary.getCommentAuthorRegEx()))
-					.getText();
+					By.xpath(this.diary.getCommentAuthorRegEx())).getText();
 			// Time
-			String time = e.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
+			String time = e
+					.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
 					.getAttribute("datetime").toString();
 			// Commentary
 			String comment = e.findElement(
-					By.xpath(this.diary.getCommentTextRegEx()))
-					.getText();
+					By.xpath(this.diary.getCommentTextRegEx())).getText();
 
-			Commentary c = new Commentary(commentaryAuthor, time, n,
-					comment);
+			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
 			article.addCommentary(c);
 		}
 		return article;
 	}
 
-	
 	/**
 	 * Order the commentaries ArrayList from the article
-	 * @param ar Article
+	 * 
+	 * @param ar
+	 *            Article
 	 */
 	private void orderByTime(Article ar) {
 		ArrayList<Commentary> commentaries = (ArrayList<Commentary>) ar
@@ -169,7 +160,4 @@ public class ArticleInflater {
 		});
 		ar.setCommentaries(commentaries);
 	}
-
-
-
 }
