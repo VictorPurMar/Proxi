@@ -15,11 +15,20 @@ public class DiariesController {
 	private List<Diary> diaries;
 	private List<Article> articles;
 	
+	
+	/**
+	 * Constructor class
+	 */
 	public DiariesController(){
 		this.articles = new ArrayList<Article>();
 		this.diaries = new ArrayList<Diary>();
 	}
 	
+	/**
+	 * Add the String urls to the this.diaries list of Diary
+	 * @param analyzedUrls Set<String> 
+	 * @return this.diaries
+	 */
 	public List<Diary> diaryUrlInflater(HashSet<String> analyzedUrls) {
 		this.analyzedUrls = analyzedUrls;
 		Iterator<String> iterator = null;
@@ -37,10 +46,12 @@ public class DiariesController {
 
 	}
 	
+	/**
+	 * Inflate the diaries with articles
+	 */
 	public void diaryArticleInflater() {
 		
 		ArticleInflater ap = new ArticleInflater();
-		
 		for (int i = 0 ; i < this.diaries.size() ; i++){
 			Diary diary = this.diaries.get(i);
 			List<String> urlsList = diary.getUrls();
@@ -53,9 +64,11 @@ public class DiariesController {
 		ap.close();
 	}
 	
+	/**
+	 * Make the diaries from data stored
+	 */
 	public void getTheDiaries() {
 		// Future DiaryParser class for permanent Storage
-
 		// /Demo///
 
 		// Diary d1 = new Diary(diaryName, diaryBasicUrl,
@@ -77,6 +90,8 @@ public class DiariesController {
 
 		this.diaries.add(elMundo);
 	}
+	
+	//Getters and Setters
 
 	public List<Article> getArticles() {
 		return articles;
