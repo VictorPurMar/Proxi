@@ -79,14 +79,14 @@ public class DiariesController {
 		// commentTextRegEx);
 		
 		
-		// Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null,
-		// "//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
-		// "//h1[@itemprop='headline']", "//p[@class='antetitulo']",
-		// "//footer/address//span[@itemprop='name']", "//footer/time",
-		// "El Mundo", "//div[@id='listado_comentarios']/section/article",
-		// "header/h1/a[text()]",
-		// "header/div[@class='autor']/span[text()]", "header/time",
-		// "div[@class='texto-comentario']/p[text()]");
+		 Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null, null,
+		 "//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
+		 "//h1[@itemprop='headline']", "//p[@class='antetitulo']",
+		 "//footer/address//span[@itemprop='name']", "//footer/time",
+		 "El Mundo", "//div[@id='listado_comentarios']/section/article",
+		 "header/h1/a[text()]",
+		 "header/div[@class='autor']/span[text()]", "header/time",
+		 "div[@class='texto-comentario']/p[text()]");
 
 		Diary elPais = new Diary(
 				"El Pais",
@@ -95,14 +95,23 @@ public class DiariesController {
 				"//div[@class='encabezado estirar']/a[@class='conversacion']",
 				"/html/body/div[2]/div[2]/ul/li[3]/a",
 				null,
-				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/h1",
-				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/div/h2",
-				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/span[1]/a",
-				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/a",
-				"El Pais", "commentaryRegEx", "commentNumberRegEx",
-				"commentAuthorRegEx", "commentTimeRegEx", "commentTextRegEx");
+				"/html/body/div[4]/div[4]/div[2]/div[1]/div[1]/div[1]/h1",
+				"/html/body/div[4]/div[4]/div[2]/div[1]/div[1]/div[1]/div/h2",
+				"/html/body/div[4]/div[4]/div[2]/div[1]/div[2]/span/span[1]/a",
+				"/html/body/div[4]/div[4]/div[2]/div[1]/div[2]/span/a",
+				"El Pais",
+				"//div[@class='mensajes']/div",
+				"//div[@class='nombres']/p/a", //Provisional comment number
+				"//div[@class='nombres']/p/a",
+				"//div[@class='nombres']/p/a", // Provisional comment time
+				"//div[@class='comentario']/p");
+		
+//		"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/h1",
+//		"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/div/h2",
+//		"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/span[1]/a",
+//		"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/a",
 
-		// this.diaries.add(elMundo);
+		this.diaries.add(elMundo);
 		this.diaries.add(elPais);
 	}
 

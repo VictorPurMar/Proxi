@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -15,14 +17,20 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import proxi.model.objects.*;
 
 public class ArticleInflater {
-
+	//Web driver of Selenium
+	//FirefoxDriver in that case
+	private static WebDriver driver;
+	
 	private String analyzedUrl;
 	private Diary diary;
-	private static WebDriver driver;
+	private Set<String> analyzedComments;
+	private int commentCounter;
 
 	// Constructor
 
 	public ArticleInflater() {
+		analyzedComments = new HashSet<String>();
+		commentCounter = 0;
 	}
 
 	// Public Methods
@@ -87,7 +95,7 @@ public class ArticleInflater {
 				By.xpath(this.diary.getSubtitleRegEx())).getText();
 		String author = driver.findElement(
 				By.xpath(this.diary.getAuthorRegEx())).getText();
-		
+
 		//Modificar
 //		String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
 //				.getAttribute("datetime");
@@ -111,36 +119,40 @@ public class ArticleInflater {
 			element.click();
 			try {
 				//wait to page load
-				driver.wait(1000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	
-		if (commentDisplayType == 1){
+		if (this.diary.getNextButton() == null){
 			
-		}else if (commentDisplayType == 2){
-			 //Repeat the show more click until all the commentaries are showed
-			loopNextClicker();
-
 			// Article Commentaries adder
 			article = showedCommentsFiller(article);
 			
-		}else if (commentDisplayType == 3){
+		}else {
+			 //Repeat the show more click until all the commentaries are showed
+			loopNextClicker(article);
+			
 		}
+		
 		return article;
 	}
 
-	private void loopNextClicker() {
+	private void loopNextClicker(Article article) {
 		Boolean exit = false;
 		while (!exit) {
 			try {
-				Thread.sleep(200); // Correct one unexpected behavior and
-									// allow to process the URL to the
-									// browser
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
 				element.click();
+				Thread.sleep(200); 	// Correct one unexpected behavior and
+									// allow to process the URL to the
+									// browser
+				
+				// Article Commentaries adder
+				article = showedCommentsFiller(article);
+				
 			} catch (Exception e) {
 				exit = true;
 			}
@@ -150,27 +162,54 @@ public class ArticleInflater {
 	private Article showedCommentsFiller(Article article) {
 		Iterator<WebElement> commentary = driver.findElements(
 				By.xpath(this.diary.getCommentaryRegEx())).iterator();
+		
+		int nu = 0;
 
 		while (commentary.hasNext()) {
 			WebElement e = commentary.next();
+			nu++;
 
-			// number
-			int n = Integer.parseInt(e.findElement(
-					By.xpath(this.diary.getCommentNumberRegEx())).getText());
-			// Author
-			String commentaryAuthor = e.findElement(
-					By.xpath(this.diary.getCommentAuthorRegEx())).getText();
-			// Time
-			String time = e
-					.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
-					.getAttribute("datetime").toString();
 			// Commentary
 			String comment = e.findElement(
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
 
-			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
-			article.addCommentary(c);
+			// This condition add only non repeated comments
+			if (this.analyzedComments.add(comment)) {
+			
+				// number
+				
+				int n = 0;
+				try{
+					n = Integer.parseInt(e.findElement(By.xpath(this.diary.getCommentNumberRegEx())).getText());
+				}catch(Exception x){
+					n = commentCounter;
+					commentCounter ++;
+				}
+				
+				// Author
+				String commentaryAuthor = e.findElement(
+						By.xpath(this.diary.getCommentAuthorRegEx())).getText();
+				// Time
+				
+				String time = "";
+				try{
+					time = e.findElement(By.xpath(this.diary.getCommentTimeRegEx())).getText();  //NOMBRE
+				}catch(Exception x){
+					try{
+					time = e
+							.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
+							.getAttribute("datetime").toString();
+					}catch(Exception y){
+						time = "Fecha erronea";
+					}
+				}
+				
+				Commentary c = new Commentary(commentaryAuthor, time, n,
+						comment);
+				article.addCommentary(c);
+			}
 		}
+		System.out.println(nu);
 		return article;
 	}
 
