@@ -10,23 +10,24 @@ import proxi.model.objects.Article;
 import proxi.model.objects.Diary;
 
 public class DiariesController {
-	
+
 	public Set<String> analyzedUrls = null;
 	private List<Diary> diaries;
 	private List<Article> articles;
-	
-	
+
 	/**
 	 * Constructor class
 	 */
-	public DiariesController(){
+	public DiariesController() {
 		this.articles = new ArrayList<Article>();
 		this.diaries = new ArrayList<Diary>();
 	}
-	
+
 	/**
 	 * Add the String urls to the this.diaries list of Diary
-	 * @param analyzedUrls Set<String> 
+	 * 
+	 * @param analyzedUrls
+	 *            Set<String>
 	 * @return this.diaries
 	 */
 	public List<Diary> diaryUrlInflater(HashSet<String> analyzedUrls) {
@@ -45,25 +46,25 @@ public class DiariesController {
 		return this.diaries;
 
 	}
-	
+
 	/**
 	 * Inflate the diaries with articles
 	 */
 	public void diaryArticleInflater() {
-		
+
 		ArticleInflater ap = new ArticleInflater();
-		for (int i = 0 ; i < this.diaries.size() ; i++){
+		for (int i = 0; i < this.diaries.size(); i++) {
 			Diary diary = this.diaries.get(i);
 			List<String> urlsList = diary.getUrls();
-			for (int j = 0; j < urlsList.size() ;  j++){
+			for (int j = 0; j < urlsList.size(); j++) {
 				Article article = ap.run(urlsList.get(j), diary);
 				articles.add(article);
 			}
 		}
-		
+
 		ap.close();
 	}
-	
+
 	/**
 	 * Make the diaries from data stored
 	 */
@@ -71,27 +72,41 @@ public class DiariesController {
 		// Future DiaryParser class for permanent Storage
 		// /Demo///
 
-		// Diary d1 = new Diary(diaryName, diaryBasicUrl,
-		// expandableCommentaries, nextButton, titleRegEx, subtitleRegEx,
+		// Diary d1 = new Diary(diaryName, diaryBasicUrl, displayType,
+		// commentsPage, showComments, nextButton, titleRegEx, subtitleRegEx,
 		// authorRegEx, dateRegEx, diaryNameRegEx, commentaryRegEx,
 		// commentNumberRegEx, commentAuthorRegEx, commentTimeRegEx,
 		// commentTextRegEx);
-
-		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null,
-				"//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
-				"//h1[@itemprop='headline']", "//p[@class='antetitulo']",
-				"//footer/address//span[@itemprop='name']", "//footer/time",
-				"El Mundo", "//div[@id='listado_comentarios']/section/article",
-				"header/h1/a[text()]",
-				"header/div[@class='autor']/span[text()]", "header/time",
-				"div[@class='texto-comentario']/p[text()]");
 		
-//		Diary elPais = new Diary("El Pais", "www.elpais.com" , false, )
+		
+		// Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null,
+		// "//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
+		// "//h1[@itemprop='headline']", "//p[@class='antetitulo']",
+		// "//footer/address//span[@itemprop='name']", "//footer/time",
+		// "El Mundo", "//div[@id='listado_comentarios']/section/article",
+		// "header/h1/a[text()]",
+		// "header/div[@class='autor']/span[text()]", "header/time",
+		// "div[@class='texto-comentario']/p[text()]");
 
-		this.diaries.add(elMundo);
+		Diary elPais = new Diary(
+				"El Pais",
+				"elpais.com",
+				4,
+				"//div[@class='encabezado estirar']/a[@class='conversacion']",
+				"/html/body/div[2]/div[2]/ul/li[3]/a",
+				null,
+				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/h1",
+				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/div/h2",
+				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/span[1]/a",
+				"/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/a",
+				"El Pais", "commentaryRegEx", "commentNumberRegEx",
+				"commentAuthorRegEx", "commentTimeRegEx", "commentTextRegEx");
+
+		// this.diaries.add(elMundo);
+		this.diaries.add(elPais);
 	}
-	
-	//Getters and Setters
+
+	// Getters and Setters
 
 	public List<Article> getArticles() {
 		return articles;

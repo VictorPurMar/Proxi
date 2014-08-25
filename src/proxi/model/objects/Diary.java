@@ -15,6 +15,7 @@ public class Diary {
 	
 	// Commentary Display
 	private int displayType;
+	private String commentsPage;
 	private String showComments;//RegEx
 	private String nextButton; //RegEx
 	
@@ -35,7 +36,7 @@ public class Diary {
 	// Constructor
 
 	public Diary(String diaryName, String diaryBasicUrl, int displayType,
-			String showComments, String nextButton,
+			String commentsPage,String showComments, String nextButton,
 			String titleRegEx, String subtitleRegEx, String authorRegEx,
 			String dateRegEx, String diaryNameRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
@@ -47,6 +48,7 @@ public class Diary {
 		this.diaryName = diaryName;
 		this.diaryBasicUrl = diaryBasicUrl;
 		this.displayType = displayType;
+		this.commentsPage = commentsPage;
 		this.showComments = showComments;
 		this.nextButton = nextButton;
 		this.titleRegEx = titleRegEx;
@@ -62,7 +64,7 @@ public class Diary {
 	}
 	
 	// Public methods
-	
+
 	public boolean addUrl(String url){
 		return this.urls.add(url);
 	}
@@ -99,6 +101,14 @@ public class Diary {
 
 	public void setDisplayType(int displayType) {
 		this.displayType = displayType;
+	}
+	
+	public String getCommentsPage() {
+		return commentsPage;
+	}
+
+	public void setCommentsPage(String commentsPage) {
+		this.commentsPage = commentsPage;
 	}
 
 	public String getShowComments() {
@@ -231,7 +241,8 @@ public class Diary {
 	public String toString() {
 		return "Diary [diaryName=" + diaryName + ", diaryBasicUrl ="
 				+ diaryBasicUrl + ", displayType="
-				+ displayType + ", showComments=" + showComments + ", nextButton=" + nextButton
+				+ displayType + ", commentsPage=" + commentsPage 
+				+", showComments=" + showComments + ", nextButton=" + nextButton
 				+ ", titleRegEx=" + titleRegEx + ", subtitleRegEx="
 				+ subtitleRegEx + ", authorRegEx=" + authorRegEx
 				+ ", dateRegEx=" + dateRegEx + ", diaryNameRegEx="

@@ -3,6 +3,7 @@ package proxi.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.openqa.selenium.By;
@@ -27,16 +28,24 @@ public class ArticleInflater {
 	// Public Methods
 
 	public Article run(String url, Diary diary) {
-
+		
+		
 		this.diary = diary;
 		this.analyzedUrl = url;
 
 		// Open or reuse the browser
 		if (driver == null) {
+//			Change profile in Firefox, its not used right now
+//			ProfilesIni profile = new ProfilesIni();
+//			FirefoxProfile myProfile = profile.getProfile("default");
+//			myProfile.setPreference("capability.policy.default.Window.frameElement.get","allAccess");
+//			driver = new FirefoxDriver(myProfile);
+			
 			driver = new FirefoxDriver();
 			driver.manage().window().setSize(new Dimension(100, 100));
 		}
 
+		// Make the article from the web
 		Article article = articleController();
 
 		// Order the article commentaries
@@ -78,8 +87,12 @@ public class ArticleInflater {
 				By.xpath(this.diary.getSubtitleRegEx())).getText();
 		String author = driver.findElement(
 				By.xpath(this.diary.getAuthorRegEx())).getText();
-		String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
-				.getAttribute("datetime");
+		
+		//Modificar
+//		String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
+//				.getAttribute("datetime");
+		String date = new Date().toString();
+		
 		String url = analyzedUrl;
 
 		String[] cleanDiary = analyzedUrl.split("/");
@@ -92,8 +105,18 @@ public class ArticleInflater {
 
 	private Article commentInflater(Article article) {
 		int commentDisplayType = this.diary.getDisplayType();
-		System.out.println("" + commentDisplayType);
 		
+		if (this.diary.getCommentsPage() != null){
+			WebElement element = driver.findElement(By.xpath(this.diary.getCommentsPage()));
+			element.click();
+			try {
+				//wait to page load
+				driver.wait(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	
 		if (commentDisplayType == 1){
 			
 		}else if (commentDisplayType == 2){
@@ -102,10 +125,8 @@ public class ArticleInflater {
 
 			// Article Commentaries adder
 			article = showedCommentsFiller(article);
+			
 		}else if (commentDisplayType == 3){
-			
-		}else if (commentDisplayType == 4){
-			
 		}
 		return article;
 	}
