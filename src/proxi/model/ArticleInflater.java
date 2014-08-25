@@ -23,13 +23,14 @@ public class ArticleInflater {
 
 	private String analyzedUrl;
 	private Diary diary;
-	private Set<String> analyzedComments;
+//	private Set<String> analyzedComments;
+	private Set<Commentary> analyzedComments;
 	private int commentCounter;
 
 	// Constructor
 
 	public ArticleInflater() {
-		analyzedComments = new HashSet<String>();
+		analyzedComments = new HashSet<Commentary>();
 		commentCounter = 0;
 	}
 
@@ -103,7 +104,7 @@ public class ArticleInflater {
 		String date = "";
 		try {
 			date = driver.findElement(
-					By.xpath(this.diary.getCommentTimeRegEx()))
+					By.xpath(this.diary.getDateRegEx()))
 					.getText(); // NOMBRE
 		} catch (Exception x) {
 			try {
@@ -178,18 +179,24 @@ public class ArticleInflater {
 		Iterator<WebElement> commentary = driver.findElements(
 				By.xpath(this.diary.getCommentaryRegEx())).iterator();
 
-		int nu = 0;
-
+		//Count the commentaries
+		while (commentary.hasNext()){
+			WebElement e = commentary.next();
+			this.commentCounter++;;
+		}
+		
+		commentary = driver.findElements(
+				By.xpath(this.diary.getCommentaryRegEx())).iterator();
+		
 		while (commentary.hasNext()) {
 			WebElement e = commentary.next();
-			nu++;
 
 			// Commentary
 			String comment = e.findElement(
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
 
 			// This condition add only non repeated comments
-			if (this.analyzedComments.add(comment)) {
+//			if (this.analyzedComments.add(comment)) {
 
 				// number
 
@@ -200,7 +207,7 @@ public class ArticleInflater {
 							.getText());
 				} catch (Exception x) {
 					n = commentCounter;
-					commentCounter++;
+					commentCounter--;
 				}
 
 				// Author
@@ -212,7 +219,7 @@ public class ArticleInflater {
 				try {
 					time = e.findElement(
 							By.xpath(this.diary.getCommentTimeRegEx()))
-							.getText(); // NOMBRE
+							.getText();
 				} catch (Exception x) {
 					try {
 						time = e.findElement(
@@ -225,10 +232,12 @@ public class ArticleInflater {
 
 				Commentary c = new Commentary(commentaryAuthor, time, n,
 						comment);
-				article.addCommentary(c);
+				
+				if (!this.analyzedComments.contains(c)){
+					article.addCommentary(c);
+				}
 			}
-		}
-		System.out.println(nu);
+//		}
 		return article;
 	}
 

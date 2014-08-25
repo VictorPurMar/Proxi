@@ -16,7 +16,7 @@ public class ProxiCSVWriter {
 		//Serial Excel CSV divider
 		final String divider = ";";
 
-		String name = article.getDate().replaceAll("-", "")
+		String name = article.getDate().replaceAll("-", "").replaceAll("\\s+","").replaceAll(":","").replaceAll("/","")
 				+ "_" + article.getCommentaries().size() + "_"
 				+ article.getTitle().replaceAll("^[0-9,.;:-_'\\s]+$", "").replaceAll("\\s+","")
 						.substring(0, 20) + ".csv";
@@ -41,16 +41,19 @@ public class ProxiCSVWriter {
 			writer.println();
 			writer.println();
 			writer.println("COMENTARIOS");
-			writer.println("Nº" + divider + "Fecha" + divider + "Hora" + divider +  "Autor" + divider + "Comentario");
+			writer.println("Nº" + divider + "Fecha" + divider /*+ "Hora" + divider +*/ + "Autor" + divider + "Comentario");
 
 			for (int i = 0; i < article.getCommentaries().size(); i++) {
 				String[] date = article.getCommentaries().get(i).getDate().split("T");
-				date[0] = date[0].replaceAll("-", "/");
-				String[] h = date[1].split("\\+");
+//				date[0] = date[0].replaceAll("-", "/");
+//				String[] h = date[1].split("\\+");
 				writer.println(article.getCommentaries().get(i).getNumber()
-						+ divider + date[0] + divider
-						+ h[0] + divider
+						
+//						+ divider + date[0] + divider
+//						+ h[0] + divider
+						+ divider +  article.getCommentaries().get(i).getDate() + divider
 						+ article.getCommentaries().get(i).getNickName()
+						
 						+ divider
 						//Change the ";" character to ":"
 						//To the csv correct behaviour

@@ -99,7 +99,7 @@ public class DiariesController {
 				"//h1[@id='titulo_noticia']",
 				"//div[@id='subtitulo_noticia']/h2",
 				"//span[@class='firma']/span[@class='autor']/a",
-				"///span[@class='firma']/a",
+				"//span[@class='firma']/a[@class='actualizado']",
 				"El Pais", "//div[@class='mensajes']/div", "", // Provisional
 																// comment
 																// number
@@ -107,10 +107,6 @@ public class DiariesController {
 																// comment time
 				"div//div[@class='contenedorcolumnas']/div[@class='comentario']/p");
 
-		// "/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/h1",
-		// "/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/div/h2",
-		// "/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/span[1]/a",
-		// "/html/body[@id='noticia']/div[4]/div[4]/div[1]/div[1]/div[2]/span/a",
 
 		this.diaries.add(elMundo);
 		this.diaries.add(elPais);
