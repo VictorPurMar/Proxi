@@ -17,10 +17,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import proxi.model.objects.*;
 
 public class ArticleInflater {
-	//Web driver of Selenium
-	//FirefoxDriver in that case
+	// Web driver of Selenium
+	// FirefoxDriver in that case
 	private static WebDriver driver;
-	
+
 	private String analyzedUrl;
 	private Diary diary;
 	private Set<String> analyzedComments;
@@ -36,19 +36,18 @@ public class ArticleInflater {
 	// Public Methods
 
 	public Article run(String url, Diary diary) {
-		
-		
+
 		this.diary = diary;
 		this.analyzedUrl = url;
 
 		// Open or reuse the browser
 		if (driver == null) {
-//			Change profile in Firefox, its not used right now
-//			ProfilesIni profile = new ProfilesIni();
-//			FirefoxProfile myProfile = profile.getProfile("default");
-//			myProfile.setPreference("capability.policy.default.Window.frameElement.get","allAccess");
-//			driver = new FirefoxDriver(myProfile);
-			
+			// Change profile in Firefox, its not used right now
+			// ProfilesIni profile = new ProfilesIni();
+			// FirefoxProfile myProfile = profile.getProfile("default");
+			// myProfile.setPreference("capability.policy.default.Window.frameElement.get","allAccess");
+			// driver = new FirefoxDriver(myProfile);
+
 			driver = new FirefoxDriver();
 			driver.manage().window().setSize(new Dimension(100, 100));
 		}
@@ -96,11 +95,26 @@ public class ArticleInflater {
 		String author = driver.findElement(
 				By.xpath(this.diary.getAuthorRegEx())).getText();
 
-		//Modificar
-//		String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
-//				.getAttribute("datetime");
-		String date = new Date().toString();
+//		// Modificar
+//		// String date = driver.findElement(By.xpath(this.diary.getDateRegEx()))
+//		// .getAttribute("datetime");
+//		String date = new Date().toString();
 		
+		String date = "";
+		try {
+			date = driver.findElement(
+					By.xpath(this.diary.getCommentTimeRegEx()))
+					.getText(); // NOMBRE
+		} catch (Exception x) {
+			try {
+				date = driver.findElement(
+						By.xpath(this.diary.getCommentTimeRegEx()))
+						.getAttribute("datetime").toString();
+			} catch (Exception y) {
+				date = "Fecha erronea";
+			}
+		}
+
 		String url = analyzedUrl;
 
 		String[] cleanDiary = analyzedUrl.split("/");
@@ -112,30 +126,31 @@ public class ArticleInflater {
 	}
 
 	private Article commentInflater(Article article) {
-		int commentDisplayType = this.diary.getDisplayType();
-		
-		if (this.diary.getCommentsPage() != null){
-			WebElement element = driver.findElement(By.xpath(this.diary.getCommentsPage()));
+
+		if (this.diary.getCommentsPage() != null) {
+			WebElement element = driver.findElement(By.xpath(this.diary
+					.getCommentsPage()));
 			element.click();
+			
 			try {
-				//wait to page load
-				Thread.sleep(1000);
+				// wait to page load
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-	
-		if (this.diary.getNextButton() == null){
-			
+
+		if (this.diary.getNextButton() == null) {
+
 			// Article Commentaries adder
 			article = showedCommentsFiller(article);
-			
-		}else {
-			 //Repeat the show more click until all the commentaries are showed
+
+		} else {
+			// Repeat the show more click until all the commentaries are showed
 			loopNextClicker(article);
-			
+
 		}
-		
+
 		return article;
 	}
 
@@ -146,13 +161,13 @@ public class ArticleInflater {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
 				element.click();
-				Thread.sleep(200); 	// Correct one unexpected behavior and
+				Thread.sleep(200); // Correct one unexpected behavior and
 									// allow to process the URL to the
 									// browser
-				
+
 				// Article Commentaries adder
 				article = showedCommentsFiller(article);
-				
+
 			} catch (Exception e) {
 				exit = true;
 			}
@@ -162,7 +177,7 @@ public class ArticleInflater {
 	private Article showedCommentsFiller(Article article) {
 		Iterator<WebElement> commentary = driver.findElements(
 				By.xpath(this.diary.getCommentaryRegEx())).iterator();
-		
+
 		int nu = 0;
 
 		while (commentary.hasNext()) {
@@ -175,35 +190,39 @@ public class ArticleInflater {
 
 			// This condition add only non repeated comments
 			if (this.analyzedComments.add(comment)) {
-			
+
 				// number
-				
+
 				int n = 0;
-				try{
-					n = Integer.parseInt(e.findElement(By.xpath(this.diary.getCommentNumberRegEx())).getText());
-				}catch(Exception x){
+				try {
+					n = Integer.parseInt(e.findElement(
+							By.xpath(this.diary.getCommentNumberRegEx()))
+							.getText());
+				} catch (Exception x) {
 					n = commentCounter;
-					commentCounter ++;
+					commentCounter++;
 				}
-				
+
 				// Author
 				String commentaryAuthor = e.findElement(
 						By.xpath(this.diary.getCommentAuthorRegEx())).getText();
 				// Time
-				
+
 				String time = "";
-				try{
-					time = e.findElement(By.xpath(this.diary.getCommentTimeRegEx())).getText();  //NOMBRE
-				}catch(Exception x){
-					try{
-					time = e
-							.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
-							.getAttribute("datetime").toString();
-					}catch(Exception y){
+				try {
+					time = e.findElement(
+							By.xpath(this.diary.getCommentTimeRegEx()))
+							.getText(); // NOMBRE
+				} catch (Exception x) {
+					try {
+						time = e.findElement(
+								By.xpath(this.diary.getCommentTimeRegEx()))
+								.getAttribute("datetime").toString();
+					} catch (Exception y) {
 						time = "Fecha erronea";
 					}
 				}
-				
+
 				Commentary c = new Commentary(commentaryAuthor, time, n,
 						comment);
 				article.addCommentary(c);
