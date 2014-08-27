@@ -72,6 +72,7 @@ public class ArticleInflater {
 		Article article = null;
 
 		try {
+			if (!analyzedUrl.contains("http://")) analyzedUrl = "http://" + analyzedUrl;
 			driver.get(analyzedUrl);
 
 			// Article maker and basic data inflater
@@ -141,14 +142,13 @@ public class ArticleInflater {
 			}
 		}
 
-		if (this.diary.getNextButton() == null) {
-
-			// Article Commentaries adder
-			article = showedCommentsFiller(article);
-
-		} else {
+		if (this.diary.getNextButton() != null) {
 			// Repeat the show more click until all the commentaries are showed
 			loopNextClicker(article);
+			
+		} else {
+			// Article Commentaries adder
+			article = showedCommentsFiller(article);
 
 		}
 
@@ -158,6 +158,8 @@ public class ArticleInflater {
 	private void loopNextClicker(Article article) {
 		Boolean exit = false;
 		while (!exit) {
+			// Article Commentaries adder
+			article = showedCommentsFiller(article);
 			try {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
@@ -165,10 +167,6 @@ public class ArticleInflater {
 				Thread.sleep(200); // Correct one unexpected behavior and
 									// allow to process the URL to the
 									// browser
-
-				// Article Commentaries adder
-				article = showedCommentsFiller(article);
-
 			} catch (Exception e) {
 				exit = true;
 			}
@@ -194,6 +192,7 @@ public class ArticleInflater {
 			// Commentary
 			String comment = e.findElement(
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
+			comment = comment.replaceAll("\\n+","");
 
 			// This condition add only non repeated comments
 //			if (this.analyzedComments.add(comment)) {

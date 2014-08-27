@@ -101,15 +101,31 @@ public class DiariesController {
 				"//span[@class='firma']/span[@class='autor']/a",
 				"//span[@class='firma']/a[@class='actualizado']",
 				"El Pais", "//div[@class='mensajes']/div", "", // Provisional
-																// comment
-																// number
-				"div/div/div//p", "div//span[@class='fecha']", // Provisional
-																// comment time
+				"div/div/div//p", "div//span[@class='fecha']", 
 				"div//div[@class='contenedorcolumnas']/div[@class='comentario']/p");
-
+		
+		Diary veinteMinutos = new Diary(
+				"20 Minutos",
+				"20minutos.es",
+				1,
+				null,
+				null,
+				"//li[@class='item nextPage']/a",
+				"//div[@id='content']/div[@class='article inner']/h1",
+				"//div[@id='content']/div[@class='article inner']/div[@class='lead']/ul/li[1]",
+				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li",
+				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li/a",
+				"20 Minutos",
+				"//div[@id='listado_kment']/div[@id='comentarios']/div[@id]/div[@class='article-comment' or @class='article-comment featured']",
+				"div[@class='comment-header' or @class='comment-header featured']/span/div[@class='comments ordinal']/span",
+				"div[@class='comment-header' or @class='comment-header featured']/div[@class='user']//span[@class='vlink']",
+				"div[@class='comment-header' or @class='comment-header featured']/div[@class='user']//span[@class='user-data']",
+				"div[@class='comment-text']/p");
+		
 
 		this.diaries.add(elMundo);
 		this.diaries.add(elPais);
+		this.diaries.add(veinteMinutos);
 	}
 
 	// Getters and Setters
