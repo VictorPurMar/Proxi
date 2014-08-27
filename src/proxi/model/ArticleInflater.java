@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -48,9 +49,10 @@ public class ArticleInflater {
 			// FirefoxProfile myProfile = profile.getProfile("default");
 			// myProfile.setPreference("capability.policy.default.Window.frameElement.get","allAccess");
 			// driver = new FirefoxDriver(myProfile);
-
 			driver = new FirefoxDriver();
+			driver.manage().window().setPosition(new Point(-2000, -2000));
 			driver.manage().window().setSize(new Dimension(100, 100));
+			
 		}
 
 		// Make the article from the web
