@@ -78,11 +78,11 @@ public class DiariesController {
 		// commentNumberRegEx, commentAuthorRegEx, commentTimeRegEx,
 		// commentTextRegEx);
 
-		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", 2, null, null,
+		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", null, null,
 				"//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
 				"//h1[@itemprop='headline']", "//p[@class='antetitulo']",
 				"//footer/address//span[@itemprop='name']", "//footer/time",
-				"El Mundo", "//div[@id='listado_comentarios']/section/article",
+				"//div[@id='listado_comentarios']/section/article",
 				"header/h1/a[text()]",
 				"header/div[@class='autor']/span[text()]", "header/time",
 				"div[@class='texto-comentario']/p[text()]");
@@ -93,21 +93,20 @@ public class DiariesController {
 		// commentNumberRegEx, commentAuthorRegEx, commentTimeRegEx,
 		// commentTextRegEx)
 
-		Diary elPais = new Diary("El Pais", "elpais.com", 4,
+		Diary elPais = new Diary("El Pais", "elpais.com",
 				"//div[@class='encabezado estirar']/a[@class='conversacion']",
 				null, null,
 				"//h1[@id='titulo_noticia']",
 				"//div[@id='subtitulo_noticia']/h2",
 				"//span[@class='firma']/span[@class='autor']/a",
 				"//span[@class='firma']/a[@class='actualizado']",
-				"El Pais", "//div[@class='mensajes']/div", "", // Provisional
+				"//div[@class='mensajes']/div", "", // Provisional
 				"div/div/div//p", "div//span[@class='fecha']", 
 				"div//div[@class='contenedorcolumnas']/div[@class='comentario']/p");
 		
 		Diary veinteMinutos = new Diary(
 				"20 Minutos",
 				"20minutos.es",
-				1,
 				null,
 				null,
 				"//li[@class='item nextPage']/a",
@@ -115,7 +114,6 @@ public class DiariesController {
 				"//div[@id='content']/div[@class='article inner']/div[@class='lead']/ul/li[1]",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li/a",
-				"20 Minutos",
 				"//div[@id='listado_kment']/div[@id='comentarios']/div[@id]/div[@class='article-comment' or @class='article-comment featured']",
 				"div[@class='comment-header' or @class='comment-header featured']/span/div[@class='comments ordinal']/span",
 				"div[@class='comment-header' or @class='comment-header featured']/div[@class='user']//span[@class='vlink']",

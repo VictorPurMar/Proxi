@@ -14,7 +14,6 @@ public class Diary {
 	//SPECIFIC DATA INFLATER
 	
 	// Commentary Display
-	private int displayType;
 	private String commentsPage;
 	private String showComments;//RegEx
 	private String nextButton; //RegEx
@@ -24,7 +23,6 @@ public class Diary {
 	private String subtitleRegEx;
 	private String authorRegEx;
 	private String dateRegEx;
-	private String diaryNameRegEx;
 	
 	// Commentary data (Regular Expression)
 	private String commentaryRegEx;
@@ -35,10 +33,10 @@ public class Diary {
 
 	// Constructor
 
-	public Diary(String diaryName, String diaryBasicUrl, int displayType,
+	public Diary(String diaryName, String diaryBasicUrl,
 			String commentsPage,String showComments, String nextButton,
 			String titleRegEx, String subtitleRegEx, String authorRegEx,
-			String dateRegEx, String diaryNameRegEx, String commentaryRegEx,
+			String dateRegEx, String commentaryRegEx,
 			String commentNumberRegEx, String commentAuthorRegEx,
 			String commentTimeRegEx, String commentTextRegEx) {
 		super();
@@ -47,7 +45,6 @@ public class Diary {
 
 		this.diaryName = diaryName;
 		this.diaryBasicUrl = diaryBasicUrl;
-		this.displayType = displayType;
 		this.commentsPage = commentsPage;
 		this.showComments = showComments;
 		this.nextButton = nextButton;
@@ -55,7 +52,6 @@ public class Diary {
 		this.subtitleRegEx = subtitleRegEx;
 		this.authorRegEx = authorRegEx;
 		this.dateRegEx = dateRegEx;
-		this.diaryNameRegEx = diaryNameRegEx;
 		this.commentaryRegEx = commentaryRegEx;
 		this.commentNumberRegEx = commentNumberRegEx;
 		this.commentAuthorRegEx = commentAuthorRegEx;
@@ -93,14 +89,6 @@ public class Diary {
 
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
-	}
-	
-	public int getDisplayType() {
-		return displayType;
-	}
-
-	public void setDisplayType(int displayType) {
-		this.displayType = displayType;
 	}
 	
 	public String getCommentsPage() {
@@ -157,14 +145,6 @@ public class Diary {
 
 	public void setDateRegEx(String dateRegEx) {
 		this.dateRegEx = dateRegEx;
-	}
-
-	public String getDiaryNameRegEx() {
-		return diaryNameRegEx;
-	}
-
-	public void setDiaryNameRegEx(String diaryNameRegEx) {
-		this.diaryNameRegEx = diaryNameRegEx;
 	}
 
 	public String getCommentaryRegEx() {
@@ -240,13 +220,11 @@ public class Diary {
 	@Override
 	public String toString() {
 		return "Diary [diaryName=" + diaryName + ", diaryBasicUrl ="
-				+ diaryBasicUrl + ", displayType="
-				+ displayType + ", commentsPage=" + commentsPage 
+				+ diaryBasicUrl + ", commentsPage=" + commentsPage 
 				+", showComments=" + showComments + ", nextButton=" + nextButton
 				+ ", titleRegEx=" + titleRegEx + ", subtitleRegEx="
 				+ subtitleRegEx + ", authorRegEx=" + authorRegEx
-				+ ", dateRegEx=" + dateRegEx + ", diaryNameRegEx="
-				+ diaryNameRegEx + ", commentaryRegEx=" + commentaryRegEx
+				+ ", dateRegEx=" + dateRegEx + ", commentaryRegEx=" + commentaryRegEx
 				+ ", commentNumberRegEx=" + commentNumberRegEx
 				+ ", commentAuthorRegEx=" + commentAuthorRegEx
 				+ ", commentTimeRegEx=" + commentTimeRegEx
