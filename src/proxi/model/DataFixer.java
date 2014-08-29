@@ -32,23 +32,33 @@ import org.joda.time.DateTime;
 import proxi.model.objects.Article;
 import proxi.model.objects.Commentary;
 
-public class DiaryDataFixer {
+public class DataFixer {
 	
-	public DiaryDataFixer(Article article){	
-		if (article.getDiary().contains("20minutos.es")) articleDateText2DateTime(article);
-		else if (article.getDiary().contains("elpais.com")) articleDateText2DateTime(article);
-		else if (article.getDiary().contains("elmundo.es")) articleDateText2DateTime(article);
+	
+	public DateTime dataFixer(Article article){	
+		if (article.getDiary().contains("20minutos.es")) return articleDateText2DateTime(article);
+		else if (article.getDiary().contains("elpais.com")) return articleDateText2DateTime(article);
+		else if (article.getDiary().contains("elmundo.es")) return mundoArticleDateText2DateTime(article);
+		return null;
 	}
 	
-	private void articleDateText2DateTime(Article article) {
+	public DateTime dataFixer(Article article , Commentary commentary){
+	if (article.getDiary().contains("20minutos.es")) return minutosCommentaryDateText2DateTime(commentary);
+	else if (article.getDiary().contains("elpais.com")) return paisCommentaryDateText2DateTime(commentary);
+	else if (article.getDiary().contains("elmundo.es")) return mundoCommentaryDateText2DateTime(commentary);
+	return null;
+	}
+	
+
+	private DateTime articleDateText2DateTime(Article article) {
 		
 		String articleDate = article.getDate().toLowerCase();
 		if (articleDate.contains("actualizado")) articleDate.replace("actualizado", "");
 		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":")){
-			articleDate.substring(1, articleDate.length());
+			articleDate = articleDate.substring(1, articleDate.length());
 		}
 		
-		String[] bruteData = article.getDate().split("\\s");
+		String[] bruteData = article.getDate().split(" ");
 		int day = Integer.parseInt(bruteData[2]);
 		int month = parseTextMonth(bruteData[1]);
 		int year = Integer.parseInt(bruteData[5]);
@@ -59,7 +69,7 @@ public class DiaryDataFixer {
 		int second = Integer.parseInt(hourBrute[2]);
 		
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
-		article.setDateTime(dt);
+		return dt;
 	}
 	private int parseTextMonth(String textMonth) {
 		if (textMonth.equals("Jan")) return 1;
@@ -76,15 +86,19 @@ public class DiaryDataFixer {
 		else if (textMonth.equals("Dec")) return 12;	
 		return 0;
 	}
-	public DiaryDataFixer(Article article , Commentary commentary){
-		if (article.getDiary().contains("20minutos.es")) minutosCommentaryDateText2DateTime(commentary);
-		else if (article.getDiary().contains("elpais.com")) paisCommentaryDateText2DateTime(commentary);
-		else if (article.getDiary().contains("elmundo.es")) mundoCommentaryDateText2DateTime(commentary);
-	}
 
-	private void mundoCommentaryDateText2DateTime(Commentary commentary) {
-		String bruteCompletDate = commentary.getDate().replaceAll("\\", "\\s").replaceAll(":", " ");
-		String[] dateParts = bruteCompletDate.split("\\s");
+
+	private DateTime mundoCommentaryDateText2DateTime(Commentary commentary) {
+		
+		try{
+		String articleDate = commentary.getDate().toLowerCase();
+		if (articleDate.contains("actualizado")) articleDate = articleDate.replace("actualizado", "");
+		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":") || articleDate.startsWith(".")){
+			articleDate = articleDate.substring(1, articleDate.length());
+		}
+		
+		String bruteCompletDate = articleDate.replaceAll("/", " ").replaceAll(":", " ");
+		String[] dateParts = bruteCompletDate.split(" ");
 		int year = Integer.parseInt(dateParts[2]);
 		int month = Integer.parseInt(dateParts[1]);
 		int day = Integer.parseInt(dateParts[0]);
@@ -93,27 +107,56 @@ public class DiaryDataFixer {
 		int second = 00;
 		
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
-		commentary.setDateTime(dt);
+		return dt;
+		}catch (Exception e){
+			
+		}
+		return null;
+
+		
+		
+	}
+	private DateTime mundoArticleDateText2DateTime(Article article) {
+		
+		String articleDate = article.getDate().toLowerCase();
+		if (articleDate.contains("actualizado")) articleDate = articleDate.replace("actualizado", "");
+		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":") || articleDate.startsWith(".")){
+			articleDate = articleDate.substring(1, articleDate.length());
+		}
+		
+		String bruteCompletDate = articleDate.replaceAll("/", " ").replaceAll(":", " ");
+		String[] dateParts = bruteCompletDate.split(" ");
+		int year = Integer.parseInt(dateParts[2]);
+		int month = Integer.parseInt(dateParts[1]);
+		int day = Integer.parseInt(dateParts[0]);
+		int hour = Integer.parseInt(dateParts[3]);
+		int minute = Integer.parseInt(dateParts[4]);
+		int second = 00;
+		
+		DateTime dt = new DateTime(year, month, day, hour, minute, second);
+		return dt;
 		
 		
 	}
 
-	private void paisCommentaryDateText2DateTime(Commentary commentary) {
+	private DateTime paisCommentaryDateText2DateTime(Commentary commentary) {
+		
 		DateTime dt = new DateTime();
 		String date = commentary.getDate().toLowerCase();
 		if (date.contains("minutos") || date.contains("minuto")){
-			String[] dateParts = date.split("\\s");
+			String[] dateParts = date.split(" ");
 			int minutes = Integer.parseInt(dateParts[1]);
 			commentary.setDateTime(dt.minusMinutes(minutes));
 		}else if (date.contains("horas") || date.contains("hora")){
-			String[] dateParts = date.split("\\s");
+			String[] dateParts = date.split(" ");
 			int hours = Integer.parseInt(dateParts[1]);
 			commentary.setDateTime(dt.minusHours(hours));
 		}
+		return dt;
 	}
 
-	private void minutosCommentaryDateText2DateTime(Commentary commentary) {
-		String[] commentDateText = commentary.getDate().split("\\s");
+	private DateTime minutosCommentaryDateText2DateTime(Commentary commentary) {
+		String[] commentDateText = commentary.getDate().split(" ");
 		String bruteDateText = commentDateText[1];
 		bruteDateText = bruteDateText.replace(" - ", ".");
 		bruteDateText.replace("h", "");
@@ -128,7 +171,8 @@ public class DiaryDataFixer {
 		int second = 0;
 		
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
-		commentary.setDateTime(dt);
+		return dt;
+
 		
 	}
 

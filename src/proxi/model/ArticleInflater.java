@@ -39,6 +39,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -216,7 +217,10 @@ public class ArticleInflater {
 			article = showedCommentsFiller(article);
 
 		}
-
+		DataFixer df = new DataFixer();
+		DateTime dt = df.dataFixer(article);
+		System.out.println(dt.toString());
+		article.setDateTime(dt);
 		return article;
 	}
 
@@ -311,13 +315,16 @@ public class ArticleInflater {
 			}
 
 			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
-
 			if (!this.analyzedComments.contains(c)) {
 				this.analyzedComments.add(c);
+				
+				DataFixer df = new DataFixer();
+				DateTime dt = df.dataFixer(article,c);
+				c.setDateTime(dt);
+				
 				article.addCommentary(c);
 			}
 		}
-		// }
 		return article;
 	}
 
