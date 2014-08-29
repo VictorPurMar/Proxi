@@ -28,12 +28,15 @@ package proxi.model.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 public class Article {
 
 	private String title;
 	private String subtitle;
 	private String author;
 	private String date;
+	private DateTime dateTime;
 	private String url;
 	private String diary;
 	private List<Commentary> commentaries;
@@ -48,6 +51,7 @@ public class Article {
 		this.subtitle = subtitle;
 		this.author = author;
 		this.date = date;
+		this.dateTime = null;
 		this.url = url;
 		this.diary = diary;
 	}
@@ -90,6 +94,14 @@ public class Article {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+	
+	public DateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(DateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getUrl() {

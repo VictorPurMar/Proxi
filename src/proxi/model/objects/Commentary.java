@@ -24,10 +24,13 @@
  */
 package proxi.model.objects;
 
+import org.joda.time.DateTime;
+
 public class Commentary {
 
 	private String nickName;
 	private String date;
+	private DateTime dateTime;
 	private int number;
 	private String commentary;
 
@@ -37,6 +40,7 @@ public class Commentary {
 		super();
 		this.nickName = nickName;
 		this.date = date;
+		this.dateTime = null;
 		this.number = number;
 		this.commentary = commentary;
 	}
@@ -57,6 +61,14 @@ public class Commentary {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+	
+	public DateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(DateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public int getNumber() {
