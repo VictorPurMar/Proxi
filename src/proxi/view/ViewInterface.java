@@ -23,7 +23,7 @@
  *  along with Proxi project.  If not, see <http://www.gnu.org/licenses/>. 
  */package proxi.view;
 
-interface ViewInterface {
+public interface ViewInterface {
 
 	/**
 	 * Start the interface

@@ -30,6 +30,8 @@ import java.util.List;
 import proxi.model.*;
 import proxi.model.objects.*;
 import proxi.view.*;
+import proxi.view.swing.ProxyMain;
+import proxi.view.swing.ProxySecond;
 
 public class Controller {
 

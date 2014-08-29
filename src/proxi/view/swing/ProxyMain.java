@@ -1,11 +1,11 @@
 /*
- *  ProxiSecond.java
+ *  ProxiMain.java
  *  
  *  This file is part of Proxi project.
  *  
  *  Victor Purcallas Marchesi <vpurcallas@gmail.com>
  *  
- *  This class represents the second Swing Interface
+ *  This class represents the first Swing Interface
  *  
  *  		
  *
@@ -22,7 +22,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Proxi project.  If not, see <http://www.gnu.org/licenses/>. 
  */
-package proxi.view;
+
+package proxi.view.swing;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -35,21 +36,27 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-//import javax.swing.JScrollPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashSet;
 
 import proxi.controller.Controller;
+import proxi.view.ViewInterface;
 
-public class ProxySecond implements ActionListener, ViewInterface{
+public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
 
 	//Visual elements
     private JFrame jfSdi;
@@ -61,7 +68,7 @@ public class ProxySecond implements ActionListener, ViewInterface{
     private JButton jbAnalyze, jbExit;
     private JFileChooser jFileChooser;
     private JTextArea ta;
-//    private JScrollPane scroll;
+    private JScrollPane scroll;
     
     //Non visual variables
     public HashSet<String> urls = null;
@@ -69,17 +76,17 @@ public class ProxySecond implements ActionListener, ViewInterface{
     public boolean cont = false;
 
     
-    public ProxySecond(Controller c) {
+    public ProxyMain(Controller c) {
     	this.c = c;
         this.initComponents();
         this.registerListeners();
     }
-    
+
     @Override
     public void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
-        this.jfSdi.setSize(600, 200);
+        this.jfSdi.setSize(600, 500);
         this.jfSdi.setResizable(false);
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -127,14 +134,26 @@ public class ProxySecond implements ActionListener, ViewInterface{
         
         //Add Instructions
         textPane = new JPanel();
-//        textPane.setLayout(new BorderLayout());
-        jlInstructions = new JLabel("El programa esta realizando operaciones \r\n No Cierre la ventana de mozilla");
+        textPane.setLayout(new BorderLayout());
+        jlInstructions = new JLabel("Introduce las urls que quieres buscar:");
         textPane.add(jlInstructions);
-           
+        
+        //Add Text Area
+        
+        ta = new JTextArea(20, 45);
+        ta.addMouseListener(this);
+        scroll = new JScrollPane (ta, 
+        		   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        ta.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        
         //Buttons
+        this.jbAnalyze = new JButton("Analizar");
+        this.jbAnalyze.addActionListener(this);
         
         this.jbExit = new JButton("Salir");
         this.jbExit.addActionListener(this);
+        this.jbExit.setPreferredSize(this.jbAnalyze.getPreferredSize());
         
         //Button Pane
         this.buttonPane = new JPanel();
@@ -142,14 +161,15 @@ public class ProxySecond implements ActionListener, ViewInterface{
         buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         buttonPane.add(Box.createHorizontalGlue());
         buttonPane.add(jbExit);      
+        buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPane.add(jbAnalyze);
 
         
         this.jPanel.add(textPane);
+        this.jPanel.add(scroll);
         this.jPanel.add(buttonPane);
         
  
-        
-        //Add panel to principal frame
         this.jfSdi.add(this.jPanel);
         this.jfSdi.setVisible(true);
     }
@@ -162,6 +182,33 @@ public class ProxySecond implements ActionListener, ViewInterface{
             }
         });
     }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {	
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {	
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {	
+		if (SwingUtilities.isRightMouseButton(e)){
+		    JPopupMenu menu = new JPopupMenu();	
+		    jmiPaste = new JMenuItem("paste");
+		    jmiPaste.addActionListener(this);
+		    menu.add(jmiPaste);
+		    ta.setComponentPopupMenu(menu);
+		} 
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -197,6 +244,7 @@ public class ProxySecond implements ActionListener, ViewInterface{
 		// TODO Auto-generated method stub
 		return this.cont;
 	}
+
 }
 
 
