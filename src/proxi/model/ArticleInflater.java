@@ -1,3 +1,34 @@
+/*
+ *  ArticleInflater.java
+ *  
+ *  This file is part of Proxi project.
+ *  
+ *  Victor Purcallas Marchesi <vpurcallas@gmail.com>
+ *  
+ *  This class inflate the Articles and add they to an entry Diary
+ *  Also inflate the Commentaries and add they to the Article
+ *  
+ *  To do the task this class requires the selenium-server-standalone jar
+ *  The process begins opening a Browser thanks to the Selenium library and
+ *  parsing the required URLs contained in the required Diary
+ *  The Diary contains the necessary RegEx to parse the HTML
+ *  
+ *  		
+ *
+ *  Proxi project is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Proxi project is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Proxi project.  If not, see <http://www.gnu.org/licenses/>. 
+ */
+
 package proxi.model;
 
 import java.util.ArrayList;
@@ -44,11 +75,6 @@ public class ArticleInflater {
 
 		// Open or reuse the browser
 		if (driver == null) {
-			// Change profile in Firefox, its not used right now
-			// ProfilesIni profile = new ProfilesIni();
-			// FirefoxProfile myProfile = profile.getProfile("default");
-			// myProfile.setPreference("capability.policy.default.Window.frameElement.get","allAccess");
-			// driver = new FirefoxDriver(myProfile);
 			driver = new FirefoxDriver();
 			driver.manage().window().setPosition(new Point(-2000, -2000));
 			driver.manage().window().setSize(new Dimension(100, 100));
