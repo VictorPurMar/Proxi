@@ -30,7 +30,7 @@ import java.util.HashSet;
 
 import proxi.controller.Controller;
 
-public class ProxyMain implements MouseListener, ActionListener{
+public class ProxyMain implements MouseListener, ActionListener, ViewConector{
 
 	//Visual elements
     private JFrame jfSdi;
@@ -56,7 +56,8 @@ public class ProxyMain implements MouseListener, ActionListener{
         this.registerListeners();
     }
 
-    private void initComponents() {
+    @Override
+    public void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
         this.jfSdi.setSize(600, 500);
@@ -213,10 +214,11 @@ public class ProxyMain implements MouseListener, ActionListener{
 		this.jfSdi.dispose();
 	}
 
-	public boolean cont() {
+	public boolean returnAttributes() {
 		// TODO Auto-generated method stub
 		return this.cont;
 	}
+
 }
 
 

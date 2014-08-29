@@ -74,7 +74,7 @@ public class Controller {
 
 	private void waitInterfaceResponse(ProxyMain pm) {
 		// The interface will wait to response
-		while (!pm.cont()) {
+		while (!pm.returnAttributes()) {
 			try {
 				Thread.sleep(WAIT_FOR_ACTION);
 			} catch (InterruptedException e) {

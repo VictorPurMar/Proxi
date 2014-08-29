@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 import proxi.controller.Controller;
 
-public class ProxySecond implements ActionListener{
+public class ProxySecond implements ActionListener, ViewConector{
 
 	//Visual elements
     private JFrame jfSdi;
@@ -50,8 +50,9 @@ public class ProxySecond implements ActionListener{
         this.initComponents();
         this.registerListeners();
     }
-
-    private void initComponents() {
+    
+    @Override
+    public void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
         this.jfSdi.setSize(600, 200);
@@ -168,7 +169,7 @@ public class ProxySecond implements ActionListener{
 		this.jfSdi.dispose();
 	}
 
-	public boolean cont() {
+	public boolean returnAttributes() {
 		// TODO Auto-generated method stub
 		return this.cont;
 	}
