@@ -313,6 +313,7 @@ public class ArticleInflater {
 			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
 
 			if (!this.analyzedComments.contains(c)) {
+				this.analyzedComments.add(c);
 				article.addCommentary(c);
 			}
 		}
