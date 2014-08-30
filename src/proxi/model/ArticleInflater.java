@@ -149,8 +149,9 @@ public class ArticleInflater {
 				.getText();
 		String subtitle = driver.findElement(
 				By.xpath(this.diary.getSubtitleRegEx())).getText();
-		String author = driver.findElement(
-				By.xpath(this.diary.getAuthorRegEx())).getText();
+		String author = DataFixer.authorFixer(this.diary.getDiaryBasicUrl(), driver.findElement(
+				By.xpath(this.diary.getAuthorRegEx())).getText());
+		
 
 		// // Modificar
 		// // String date =
@@ -181,9 +182,9 @@ public class ArticleInflater {
 		// Making the article
 		Article article = new Article(title, subtitle, author, date, url,
 				diaryName);
+		
 		try{
-		DataFixer df = new DataFixer();
-		DateTime dt = df.dataFixer(article);
+		DateTime dt = DataFixer.dataFixer(article);
 		article.setDateTime(dt);
 		}catch(Exception e){
 			System.err.print("Impossible to add DateTime to article");
@@ -265,9 +266,8 @@ public class ArticleInflater {
 
 		// Count the commentaries
 		while (commentary.hasNext()) {
-			WebElement e = commentary.next();
+			commentary.next();
 			this.commentCounter++;
-			;
 		}
 
 		commentary = driver.findElements(
@@ -319,9 +319,7 @@ public class ArticleInflater {
 			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
 			if (!this.analyzedComments.contains(c)) {
 				this.analyzedComments.add(c);
-				
-				DataFixer df = new DataFixer();
-				DateTime dt = df.dataFixer(article,c);
+				DateTime dt = DataFixer.dataFixer(article,c);
 				c.setDateTime(dt);
 				
 				article.addCommentary(c);

@@ -26,39 +26,69 @@
 
 package proxi.model;
 
-
 import org.joda.time.DateTime;
 
 import proxi.model.objects.Article;
 import proxi.model.objects.Commentary;
 
 public class DataFixer {
-	
-	
-	public DateTime dataFixer(Article article){	
-		if (article.getDiary().contains("20minutos.es")) return articleDateText2DateTime(article);
-		else if (article.getDiary().contains("elpais.com")) return articleDateText2DateTime(article);
-		else if (article.getDiary().contains("elmundo.es")) return mundoArticleDateText2DateTime(article);
+
+	public static DateTime dataFixer(Article article) {
+		if (article.getDiary().contains("20minutos.es"))
+			return minutosArticleDateText2DateTime(article);
+		else if (article.getDiary().contains("elpais.com"))
+			return paisArticleDateText2DateTime(article);
+		else if (article.getDiary().contains("elmundo.es"))
+			return mundoArticleDateText2DateTime(article);
 		return null;
 	}
-	
-	public DateTime dataFixer(Article article , Commentary commentary){
-	if (article.getDiary().contains("20minutos.es")) return minutosCommentaryDateText2DateTime(commentary);
-	else if (article.getDiary().contains("elpais.com")) return paisCommentaryDateText2DateTime(commentary);
-	else if (article.getDiary().contains("elmundo.es")) return mundoCommentaryDateText2DateTime(commentary);
-	return null;
-	}
-	
 
-	private DateTime articleDateText2DateTime(Article article) {
-		//Pais 30 AGO 2014 - 16:56 CEST
+	public static DateTime dataFixer(Article article, Commentary commentary) {
+		if (article.getDiary().contains("20minutos.es"))
+			return minutosCommentaryDateText2DateTime(commentary);
+		else if (article.getDiary().contains("elpais.com"))
+			return paisCommentaryDateText2DateTime(commentary);
+		else if (article.getDiary().contains("elmundo.es"))
+			return mundoCommentaryDateText2DateTime(commentary);
+		return null;
+	}
+
+	private static DateTime minutosArticleDateText2DateTime(Article article) {
+		String art = article.getDate().replaceAll(" - ", ".")
+				.replaceAll("h", "");
+		String[] artDateText = art.split(" ");
+		String bruteDateText = artDateText[artDateText.length - 1];
+		String[] dateArray = bruteDateText.split("\\.");
+		int year = Integer.parseInt(dateArray[2]);
+		int month = Integer.parseInt(dateArray[1]);
+		int day = Integer.parseInt(dateArray[0]);
+		int hour = 0;
+		try {
+			hour = Integer.parseInt(dateArray[3]);
+		} catch (Exception e) {
+		}
+		int minute = 0;
+		try {
+			minute = Integer.parseInt(dateArray[4]);
+		} catch (Exception e) {
+		}
+		int second = 0;
+
+		DateTime dt = new DateTime(year, month, day, hour, minute, second);
+		return dt;
+	}
+
+	private static DateTime paisArticleDateText2DateTime(Article article) {
+		// Pais 30 AGO 2014 - 16:56 CEST
 		String articleDate = article.getDate().toLowerCase();
-		if (articleDate.contains("actualizado")) articleDate.replace("actualizado", "");
-		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":")){
+		if (articleDate.contains("actualizado"))
+			articleDate.replace("actualizado", "");
+		while (articleDate.startsWith(" ") || articleDate.startsWith(":")) {
 			articleDate = articleDate.substring(1, articleDate.length());
 		}
-		
-		articleDate = articleDate.replaceAll("-", " ").replaceAll(":", " ").replaceAll("  ", "");
+
+		articleDate = articleDate.replaceAll("-", " ").replaceAll(":", " ")
+				.replaceAll("  ", "");
 		String[] bruteData = articleDate.split(" ");
 		int day = Integer.parseInt(bruteData[0]);
 		int month = parseTextMonth(bruteData[1]);
@@ -66,64 +96,23 @@ public class DataFixer {
 		int hour = Integer.parseInt(bruteData[3]);
 		int minute = Integer.parseInt(bruteData[4]);
 		int second = 0;
-		
+
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
 		return dt;
 	}
-	private int parseTextMonth(String textMonth) {
-		if (textMonth.equals("jan") || textMonth.equals("ene")) return 1;
-		else if (textMonth.equals("feb") ) return 2;
-		else if (textMonth.equals("mar")) return 3;
-		else if (textMonth.equals("apr") || textMonth.equals("abr")) return 4;
-		else if (textMonth.equals("may") ) return 5;
-		else if (textMonth.equals("jun")) return 6;
-		else if (textMonth.equals("jul")) return 7;
-		else if (textMonth.equals("aug") || textMonth.equals("ago")) return 8;
-		else if (textMonth.equals("sep")) return 9;
-		else if (textMonth.equals("oct")) return 10;
-		else if (textMonth.equals("nov")) return 11;
-		else if (textMonth.equals("dec") || textMonth.equals("dic")) return 12;	
-		return 0;
-	}
 
+	private static DateTime mundoArticleDateText2DateTime(Article article) {
 
-	private DateTime mundoCommentaryDateText2DateTime(Commentary commentary) {
-		
-		try{
-		String articleDate = commentary.getDate().toLowerCase();
-		if (articleDate.contains("actualizado")) articleDate = articleDate.replace("actualizado", "");
-		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":") || articleDate.startsWith(".")){
-			articleDate = articleDate.substring(1, articleDate.length());
-		}
-		
-		String bruteCompletDate = articleDate.replaceAll("/", " ").replaceAll(":", " ");
-		String[] dateParts = bruteCompletDate.split(" ");
-		int year = Integer.parseInt(dateParts[2]);
-		int month = Integer.parseInt(dateParts[1]);
-		int day = Integer.parseInt(dateParts[0]);
-		int hour = Integer.parseInt(dateParts[3]);
-		int minute = Integer.parseInt(dateParts[4]);
-		int second = 0;
-		
-		DateTime dt = new DateTime(year, month, day, hour, minute, second);
-		return dt;
-		}catch (Exception e){
-			
-		}
-		return null;
-
-		
-		
-	}
-	private DateTime mundoArticleDateText2DateTime(Article article) {
-		
 		String articleDate = article.getDate().toLowerCase();
-		if (articleDate.contains("actualizado")) articleDate = articleDate.replace("actualizado", "");
-		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":") || articleDate.startsWith(".")){
+		if (articleDate.contains("actualizado"))
+			articleDate = articleDate.replace("actualizado", "");
+		while (articleDate.startsWith(" ") || articleDate.startsWith(":")
+				|| articleDate.startsWith(".")) {
 			articleDate = articleDate.substring(1, articleDate.length());
 		}
-		
-		String bruteCompletDate = articleDate.replaceAll("/", " ").replaceAll(":", " ");
+
+		String bruteCompletDate = articleDate.replaceAll("/", " ").replaceAll(
+				":", " ");
 		String[] dateParts = bruteCompletDate.split(" ");
 		int year = Integer.parseInt(dateParts[2]);
 		int month = Integer.parseInt(dateParts[1]);
@@ -131,23 +120,53 @@ public class DataFixer {
 		int hour = Integer.parseInt(dateParts[3]);
 		int minute = Integer.parseInt(dateParts[4]);
 		int second = 00;
-		
+
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
 		return dt;
-		
-		
+
 	}
 
-	private DateTime paisCommentaryDateText2DateTime(Commentary commentary) {
+	private static DateTime minutosCommentaryDateText2DateTime(
+			Commentary commentary) {
+		String comment = commentary.getDate().replaceAll(" - ", ".")
+				.replaceAll("h", "");
+		String[] commentDateText = comment.split(" ");
+		String bruteDateText = commentDateText[commentDateText.length - 1];
+
+		String[] dateArray = bruteDateText.split("\\.");
+
+		int year = Integer.parseInt(dateArray[2]);
+		int month = Integer.parseInt(dateArray[1]);
+		int day = Integer.parseInt(dateArray[0]);
+		int hour = 0;
+		try {
+			hour = Integer.parseInt(dateArray[3]);
+		} catch (Exception e) {
+		}
+		int minute = 0;
+		try {
+			minute = Integer.parseInt(dateArray[4]);
+		} catch (Exception e) {
+		}
+		int second = 0;
+
+		DateTime dt = new DateTime(year, month, day, hour, minute, second);
+		return dt;
+	}
+
+	private static DateTime paisCommentaryDateText2DateTime(
+			Commentary commentary) {
 		DateTime dt = new DateTime();
-		String date = commentary.getDate().toLowerCase(); //.replaceAll(" - ", " ").replaceAll(":", " ");
-		if(date.contains("menos de")){
+		String date = commentary.getDate().toLowerCase(); // .replaceAll(" - ",
+															// " ").replaceAll(":",
+															// " ");
+		if (date.contains("menos de")) {
 			return dt;
-		}else if (date.contains("minutos") || date.contains("minuto")){
+		} else if (date.contains("minutos") || date.contains("minuto")) {
 			String[] dateParts = date.split(" ");
 			int minutes = Integer.parseInt(dateParts[1]);
 			return dt.minusMinutes(minutes);
-		}else if (date.contains("horas") || date.contains("hora")){
+		} else if (date.contains("horas") || date.contains("hora")) {
 			String[] dateParts = date.split(" ");
 			int hours = Integer.parseInt(dateParts[1]);
 			return dt.minusHours(hours);
@@ -155,25 +174,71 @@ public class DataFixer {
 		return null;
 	}
 
-	private DateTime minutosCommentaryDateText2DateTime(Commentary commentary) {
-		String[] commentDateText = commentary.getDate().split(" ");
-		String bruteDateText = commentDateText[1];
-		bruteDateText = bruteDateText.replace(" - ", ".");
-		bruteDateText.replace("h", "");
-		
-		String[] dateArray = bruteDateText.split(".");
-		
-		int year = Integer.parseInt(dateArray[2]);
-		int month = Integer.parseInt(dateArray[1]);
-		int day = Integer.parseInt(dateArray[0]);
-		int hour = Integer.parseInt(dateArray[3]);
-		int minute = Integer.parseInt(dateArray[4]);
-		int second = 0;
-		
-		DateTime dt = new DateTime(year, month, day, hour, minute, second);
-		return dt;
+	private static DateTime mundoCommentaryDateText2DateTime(
+			Commentary commentary) {
 
-		
+		try {
+			String articleDate = commentary.getDate().toLowerCase();
+			if (articleDate.contains("actualizado"))
+				articleDate = articleDate.replace("actualizado", "");
+			while (articleDate.startsWith(" ") || articleDate.startsWith(":")
+					|| articleDate.startsWith(".")) {
+				articleDate = articleDate.substring(1, articleDate.length());
+			}
+
+			String bruteCompletDate = articleDate.replaceAll("/", " ")
+					.replaceAll(":", " ");
+			String[] dateParts = bruteCompletDate.split(" ");
+			int year = Integer.parseInt(dateParts[2]);
+			int month = Integer.parseInt(dateParts[1]);
+			int day = Integer.parseInt(dateParts[0]);
+			int hour = Integer.parseInt(dateParts[3]);
+			int minute = Integer.parseInt(dateParts[4]);
+			int second = 0;
+
+			DateTime dt = new DateTime(year, month, day, hour, minute, second);
+			return dt;
+		} catch (Exception e) {
+
+		}
+		return null;
+
 	}
 
+	private static int parseTextMonth(String textMonth) {
+		if (textMonth.equals("jan") || textMonth.equals("ene"))
+			return 1;
+		else if (textMonth.equals("feb"))
+			return 2;
+		else if (textMonth.equals("mar"))
+			return 3;
+		else if (textMonth.equals("apr") || textMonth.equals("abr"))
+			return 4;
+		else if (textMonth.equals("may"))
+			return 5;
+		else if (textMonth.equals("jun"))
+			return 6;
+		else if (textMonth.equals("jul"))
+			return 7;
+		else if (textMonth.equals("aug") || textMonth.equals("ago"))
+			return 8;
+		else if (textMonth.equals("sep"))
+			return 9;
+		else if (textMonth.equals("oct"))
+			return 10;
+		else if (textMonth.equals("nov"))
+			return 11;
+		else if (textMonth.equals("dec") || textMonth.equals("dic"))
+			return 12;
+		return 0;
+	}
+
+	public static String authorFixer(String diaryName, String author) {
+		if (diaryName.contains("20minutos")) {
+			author = author.replaceAll(" - ", ".").replaceAll("h", "");
+			String[] authorParts = author.split(" ");
+			author = author.replaceAll(authorParts[authorParts.length - 1], "");
+		}
+		return author;
+	}
 }
