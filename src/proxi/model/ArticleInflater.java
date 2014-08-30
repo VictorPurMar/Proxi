@@ -203,7 +203,7 @@ public class ArticleInflater {
 
 			try {
 				// wait to page load
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -237,7 +237,7 @@ public class ArticleInflater {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
 				element.click();
-				Thread.sleep(200); // Correct one unexpected behavior and
+				Thread.sleep(500); // Correct one unexpected behavior and
 									// allow to process the URL to the
 									// browser
 			} catch (Exception e) {
