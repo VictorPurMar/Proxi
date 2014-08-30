@@ -51,7 +51,7 @@ import proxi.model.objects.*;
 /**
  * 
  * @author VictorPurMar <vpurcallas@gmail.com>
- *
+ * 
  */
 public class ArticleInflater {
 	// Web driver of Selenium
@@ -149,15 +149,9 @@ public class ArticleInflater {
 				.getText();
 		String subtitle = driver.findElement(
 				By.xpath(this.diary.getSubtitleRegEx())).getText();
-		String author = DataFixer.authorFixer(this.diary.getDiaryBasicUrl(), driver.findElement(
-				By.xpath(this.diary.getAuthorRegEx())).getText());
-		
-
-		// // Modificar
-		// // String date =
-		// driver.findElement(By.xpath(this.diary.getDateRegEx()))
-		// // .getAttribute("datetime");
-		// String date = new Date().toString();
+		String author = DataFixer.authorFixer(this.diary.getDiaryBasicUrl(),
+				driver.findElement(By.xpath(this.diary.getAuthorRegEx()))
+						.getText());
 
 		String date = "";
 		try {
@@ -182,11 +176,11 @@ public class ArticleInflater {
 		// Making the article
 		Article article = new Article(title, subtitle, author, date, url,
 				diaryName);
-		
-		try{
-		DateTime dt = DataFixer.dataFixer(article);
-		article.setDateTime(dt);
-		}catch(Exception e){
+
+		try {
+			DateTime dt = DataFixer.dataFixer(article);
+			article.setDateTime(dt);
+		} catch (Exception e) {
 			System.err.print("Impossible to add DateTime to article");
 		}
 		return article;
@@ -281,11 +275,7 @@ public class ArticleInflater {
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
 			comment = comment.replaceAll("\\n+", "");
 
-			// This condition add only non repeated comments
-			// if (this.analyzedComments.add(comment)) {
-
 			// number
-
 			int n = 0;
 			try {
 				n = Integer
@@ -315,13 +305,13 @@ public class ArticleInflater {
 					time = "Fecha erronea";
 				}
 			}
-
+			// This condition add only non repeated comments
 			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
 			if (!this.analyzedComments.contains(c)) {
 				this.analyzedComments.add(c);
-				DateTime dt = DataFixer.dataFixer(article,c);
+				DateTime dt = DataFixer.dataFixer(article, c);
 				c.setDateTime(dt);
-				
+
 				article.addCommentary(c);
 			}
 		}
