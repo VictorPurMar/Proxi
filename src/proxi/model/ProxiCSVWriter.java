@@ -42,8 +42,8 @@ public class ProxiCSVWriter {
 		// Serial Excel CSV divider
 		final String divider = ";";
 		String name = "";
-		String date = "";
-		String hour = "";
+		String date = article.getDate();
+		String hour = article.getDate();
 
 		if (article.getDateTime() != null) {
 			DateTime dtArt = article.getDateTime();
@@ -70,8 +70,6 @@ public class ProxiCSVWriter {
 					+ "_"
 					+ article.getTitle().replaceAll("^[0-9,.;:-_'\\s]+$", "")
 							.replaceAll("\\s+", "").substring(0, 20) + ".csv";
-			date = article.getDate();
-			hour = article.getDate();
 		}
 
 		DateTime now = new DateTime();
@@ -108,6 +106,8 @@ public class ProxiCSVWriter {
 
 			for (int i = 0; i < article.getCommentaries().size(); i++) {
 				Commentary commentary = article.getCommentaries().get(i);
+				date = commentary.getDate();
+				hour = commentary.getDate();
 				if (commentary.getDateTime() != null) {
 
 					DateTime dtCom = commentary.getDateTime();
@@ -129,9 +129,9 @@ public class ProxiCSVWriter {
 									.replace("\"", ""));
 				} else {
 					writer.println(commentary.getNumber() + divider
-							+ commentary.getDate()
+							+ date
 							+ divider
-							+ commentary.getDate()
+							+ date
 							+ divider
 							+ commentary.getNickName()
 							// Change the ";" character to ":" to the CSV
