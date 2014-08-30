@@ -51,40 +51,38 @@ public class DataFixer {
 	
 
 	private DateTime articleDateText2DateTime(Article article) {
-		
+		//Pais 30 AGO 2014 - 16:56 CEST
 		String articleDate = article.getDate().toLowerCase();
 		if (articleDate.contains("actualizado")) articleDate.replace("actualizado", "");
 		while (articleDate.startsWith(" ") ||  articleDate.startsWith(":")){
 			articleDate = articleDate.substring(1, articleDate.length());
 		}
 		
-		String[] bruteData = article.getDate().split(" ");
-		System.out.println(bruteData.toString());
-		int day = Integer.parseInt(bruteData[2]);
+		articleDate = articleDate.replaceAll("-", " ").replaceAll(":", " ").replaceAll("  ", "");
+		String[] bruteData = articleDate.split(" ");
+		int day = Integer.parseInt(bruteData[0]);
 		int month = parseTextMonth(bruteData[1]);
-		int year = Integer.parseInt(bruteData[5]);
-		
-		String[] hourBrute = bruteData[3].split(":");
-		int hour = Integer.parseInt(hourBrute[0]);
-		int minute = Integer.parseInt(hourBrute[1]);
-		int second = Integer.parseInt(hourBrute[2]);
+		int year = Integer.parseInt(bruteData[2]);
+		int hour = Integer.parseInt(bruteData[3]);
+		int minute = Integer.parseInt(bruteData[4]);
+		int second = 0;
 		
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
 		return dt;
 	}
 	private int parseTextMonth(String textMonth) {
-		if (textMonth.equals("Jan")) return 1;
-		else if (textMonth.equals("Feb")) return 2;
-		else if (textMonth.equals("Mar")) return 3;
-		else if (textMonth.equals("Apr")) return 4;
-		else if (textMonth.equals("May")) return 5;
-		else if (textMonth.equals("Jun")) return 6;
-		else if (textMonth.equals("Jul")) return 7;
-		else if (textMonth.equals("Aug")) return 8;
-		else if (textMonth.equals("Sep")) return 9;
-		else if (textMonth.equals("Oct")) return 10;
-		else if (textMonth.equals("Nov")) return 11;
-		else if (textMonth.equals("Dec")) return 12;	
+		if (textMonth.equals("jan") || textMonth.equals("ene")) return 1;
+		else if (textMonth.equals("feb") ) return 2;
+		else if (textMonth.equals("mar")) return 3;
+		else if (textMonth.equals("apr") || textMonth.equals("abr")) return 4;
+		else if (textMonth.equals("may") ) return 5;
+		else if (textMonth.equals("jun")) return 6;
+		else if (textMonth.equals("jul")) return 7;
+		else if (textMonth.equals("aug") || textMonth.equals("ago")) return 8;
+		else if (textMonth.equals("sep")) return 9;
+		else if (textMonth.equals("oct")) return 10;
+		else if (textMonth.equals("nov")) return 11;
+		else if (textMonth.equals("dec") || textMonth.equals("dic")) return 12;	
 		return 0;
 	}
 
@@ -105,7 +103,7 @@ public class DataFixer {
 		int day = Integer.parseInt(dateParts[0]);
 		int hour = Integer.parseInt(dateParts[3]);
 		int minute = Integer.parseInt(dateParts[4]);
-		int second = 00;
+		int second = 0;
 		
 		DateTime dt = new DateTime(year, month, day, hour, minute, second);
 		return dt;
@@ -141,21 +139,20 @@ public class DataFixer {
 	}
 
 	private DateTime paisCommentaryDateText2DateTime(Commentary commentary) {
-		
 		DateTime dt = new DateTime();
-		String date = commentary.getDate().toLowerCase().replaceAll(" - ", " ").replaceAll(":", " ");
-		if (date.contains("minutos") || date.contains("minuto")){
+		String date = commentary.getDate().toLowerCase(); //.replaceAll(" - ", " ").replaceAll(":", " ");
+		if(date.contains("menos de")){
+			return dt;
+		}else if (date.contains("minutos") || date.contains("minuto")){
 			String[] dateParts = date.split(" ");
 			int minutes = Integer.parseInt(dateParts[1]);
-			dt = dt.minusMinutes(minutes);
+			return dt.minusMinutes(minutes);
 		}else if (date.contains("horas") || date.contains("hora")){
 			String[] dateParts = date.split(" ");
 			int hours = Integer.parseInt(dateParts[1]);
-			dt = dt.minusHours(hours);
-		}else{
-			return null;
+			return dt.minusHours(hours);
 		}
-		return dt;
+		return null;
 	}
 
 	private DateTime minutosCommentaryDateText2DateTime(Commentary commentary) {

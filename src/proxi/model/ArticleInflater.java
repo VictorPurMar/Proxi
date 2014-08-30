@@ -34,7 +34,6 @@ package proxi.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -182,6 +181,13 @@ public class ArticleInflater {
 		// Making the article
 		Article article = new Article(title, subtitle, author, date, url,
 				diaryName);
+		try{
+		DataFixer df = new DataFixer();
+		DateTime dt = df.dataFixer(article);
+		article.setDateTime(dt);
+		}catch(Exception e){
+			System.err.print("Impossible to add DateTime to article");
+		}
 		return article;
 	}
 
@@ -217,10 +223,6 @@ public class ArticleInflater {
 			article = showedCommentsFiller(article);
 
 		}
-		DataFixer df = new DataFixer();
-		DateTime dt = df.dataFixer(article);
-		System.out.println(dt.toString());
-		article.setDateTime(dt);
 		return article;
 	}
 
