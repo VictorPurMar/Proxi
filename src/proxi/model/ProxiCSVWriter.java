@@ -38,12 +38,15 @@ import proxi.model.objects.Commentary;
 public class ProxiCSVWriter {
 
 	public static void makeTheCSV(Article article) {
+		
+		DateTime now = new DateTime();
+		String[] dtPartsNow = dateTimeCutter(now);
 
 		// Serial Excel CSV divider
 		final String divider = ";";
 		String name = "";
-		String date = article.getDate();
-		String hour = article.getDate();
+		String articleDate = article.getDate();
+		String articleHour = article.getDate();
 
 		if (article.getDateTime() != null) {
 			DateTime dtArt = article.getDateTime();
@@ -59,8 +62,8 @@ public class ProxiCSVWriter {
 					+ article.getTitle().toLowerCase()
 							.replaceAll("[,.;:-_'\\s]", "").substring(0, 20)
 					+ ".csv";
-			date = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
-			hour = "" + dtParts[3] + ":" + dtParts[4];
+			articleDate = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
+			articleHour = "" + dtParts[3] + ":" + dtParts[4];
 
 		} else {
 			name = article.getDate().replaceAll("-", "").replaceAll("\\s+", "")
@@ -72,12 +75,6 @@ public class ProxiCSVWriter {
 							.replaceAll("\\s+", "").substring(0, 20) + ".csv";
 		}
 
-		DateTime now = new DateTime();
-		String nowM = fixWith2Chars(now.getMonthOfYear());
-		String nowD = fixWith2Chars(now.getDayOfMonth());
-		String nowH = fixWith2Chars(now.getHourOfDay());
-		String nowMin = fixWith2Chars(now.getMinuteOfHour());
-
 		try {
 			PrintWriter writer = new PrintWriter(name, "UTF-8");
 			// Add BOM character to Excel character compatibility
@@ -86,8 +83,8 @@ public class ProxiCSVWriter {
 			writer.println("ARTÍCULO");
 			writer.println("Titulo" + divider + article.getTitle());
 			writer.println("Subtitulo" + divider + article.getSubtitle());
-			writer.println("Fecha" + divider + date);
-			writer.println("Hora" + divider + hour);
+			writer.println("Fecha" + divider + articleDate);
+			writer.println("Hora" + divider + articleHour);
 			writer.println("Autor" + divider + article.getAuthor());
 			writer.println("Diario" + divider + article.getDiary());
 			writer.println("Enlace" + divider + article.getUrl());
@@ -95,9 +92,9 @@ public class ProxiCSVWriter {
 			writer.println("ANÁLISIS");
 			writer.println("Comentarios" + divider
 					+ article.getCommentaries().size());
-			writer.println("Fecha" + divider + now.getYear() + "/" + nowM + "/"
-					+ nowD);
-			writer.println("Hora" + divider + nowH + ":" + nowMin);
+			writer.println("Fecha" + divider + dtPartsNow[0] + "/" + dtPartsNow[1] + "/"
+					+ dtPartsNow[2]);
+			writer.println("Hora" + divider + dtPartsNow[3] + ":" + dtPartsNow[4]);
 			writer.println();
 			writer.println();
 			writer.println("COMENTARIOS");
@@ -106,40 +103,32 @@ public class ProxiCSVWriter {
 
 			for (int i = 0; i < article.getCommentaries().size(); i++) {
 				Commentary commentary = article.getCommentaries().get(i);
-				date = commentary.getDate();
-				hour = commentary.getDate();
+				String commentDate = commentary.getDate().replaceAll(",", " ");
+				String commentHour = commentDate;
+				try{
 				if (commentary.getDateTime() != null) {
-
 					DateTime dtCom = commentary.getDateTime();
 					String[] dtParts = dateTimeCutter(dtCom);
-					date = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
-					hour = "" + dtParts[3] + ":" + dtParts[4];
-
-					writer.println(commentary.getNumber()
-							+ divider
-							+ date
-							+ divider
-							+ hour
-							+ divider
-							+ commentary.getNickName()
-							// Change the ";" character to ":" to the CSV
-							// correct behavior
-							+ divider
-							+ commentary.getCommentary().replace(divider, ":")
-									.replace("\"", ""));
-				} else {
-					writer.println(commentary.getNumber() + divider
-							+ date
-							+ divider
-							+ date
-							+ divider
-							+ commentary.getNickName()
-							// Change the ";" character to ":" to the CSV
-							// correct behavior
-							+ divider
-							+ commentary.getCommentary().replace(divider, ":")
-									.replace("\"", ""));
+					commentDate = "" + dtParts[0] + "/" + dtParts[1] + "/"
+							+ dtParts[2];
+					commentHour = "" + dtParts[3] + ":" + dtParts[4];
 				}
+				}catch (Exception e){
+					System.err.println("Com "+ i + " dateTime bad configured");
+				}
+
+				writer.println(commentary.getNumber() + divider
+						+ commentDate
+						+ divider
+						+ commentHour
+						+ divider
+						+ commentary.getNickName()
+						// Change the ";" character to ":" to the CSV
+						// correct behavior
+						+ divider
+						+ commentary.getCommentary().replace(divider, ":")
+								.replace("\"", ""));
+
 			}
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {

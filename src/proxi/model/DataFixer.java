@@ -59,6 +59,7 @@ public class DataFixer {
 		}
 		
 		String[] bruteData = article.getDate().split(" ");
+		System.out.println(bruteData.toString());
 		int day = Integer.parseInt(bruteData[2]);
 		int month = parseTextMonth(bruteData[1]);
 		int year = Integer.parseInt(bruteData[5]);
@@ -142,15 +143,17 @@ public class DataFixer {
 	private DateTime paisCommentaryDateText2DateTime(Commentary commentary) {
 		
 		DateTime dt = new DateTime();
-		String date = commentary.getDate().toLowerCase();
+		String date = commentary.getDate().toLowerCase().replaceAll(" - ", " ").replaceAll(":", " ");
 		if (date.contains("minutos") || date.contains("minuto")){
 			String[] dateParts = date.split(" ");
 			int minutes = Integer.parseInt(dateParts[1]);
-			commentary.setDateTime(dt.minusMinutes(minutes));
+			dt = dt.minusMinutes(minutes);
 		}else if (date.contains("horas") || date.contains("hora")){
 			String[] dateParts = date.split(" ");
 			int hours = Integer.parseInt(dateParts[1]);
-			commentary.setDateTime(dt.minusHours(hours));
+			dt = dt.minusHours(hours);
+		}else{
+			return null;
 		}
 		return dt;
 	}
