@@ -35,89 +35,110 @@ import org.joda.time.DateTime;
 import proxi.model.objects.Article;
 import proxi.model.objects.Commentary;
 
-
-
 public class ProxiCSVWriter {
 
 	public static void makeTheCSV(Article article) {
-		
-		//Serial Excel CSV divider
+
+		// Serial Excel CSV divider
 		final String divider = ";";
 		String name = "";
 		String date = "";
 		String hour = "";
 
-		if (article.getDateTime()!=null){
-			DateTime dt = article.getDateTime();
-			
-			String month = fixWith2Chars(dt.getMonthOfYear());
-			String day = fixWith2Chars(dt.getDayOfMonth());
-			String h = fixWith2Chars(dt.getHourOfDay());
-			String m = fixWith2Chars(dt.getMinuteOfHour());
-					
-			name = "" + dt.getYear() + month + day 
-					+ "_" + article.getCommentaries().size() + "_"
-					+ article.getTitle().toLowerCase().replaceAll("[,.;:-_'\\s]", "").substring(0, 20) + ".csv";
-			date = "" + dt.getYear() +"/" + month +"/" + day;
-			hour = "" + h + ":" + m; 
-			
-		}else{
-			name = article.getDate().replaceAll("-", "").replaceAll("\\s+","").replaceAll(":","").replaceAll("/","")
-					+ "_" + article.getCommentaries().size() + "_"
-					+ article.getTitle().replaceAll("^[0-9,.;:-_'\\s]+$", "").replaceAll("\\s+","")
-							.substring(0, 20) + ".csv";
+		if (article.getDateTime() != null) {
+			DateTime dtArt = article.getDateTime();
+			String[] dtParts = dateTimeCutter(dtArt);
+
+			name = ""
+					+ dtParts[0]
+					+ dtParts[1]
+					+ dtParts[2]
+					+ "_"
+					+ article.getCommentaries().size()
+					+ "_"
+					+ article.getTitle().toLowerCase()
+							.replaceAll("[,.;:-_'\\s]", "").substring(0, 20)
+					+ ".csv";
+			date = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
+			hour = "" + dtParts[3] + ":" + dtParts[4];
+
+		} else {
+			name = article.getDate().replaceAll("-", "").replaceAll("\\s+", "")
+					.replaceAll(":", "").replaceAll("/", "")
+					+ "_"
+					+ article.getCommentaries().size()
+					+ "_"
+					+ article.getTitle().replaceAll("^[0-9,.;:-_'\\s]+$", "")
+							.replaceAll("\\s+", "").substring(0, 20) + ".csv";
 			date = article.getDate();
 			hour = article.getDate();
 		}
-		
+
 		DateTime now = new DateTime();
 		String nowM = fixWith2Chars(now.getMonthOfYear());
 		String nowD = fixWith2Chars(now.getDayOfMonth());
 		String nowH = fixWith2Chars(now.getHourOfDay());
 		String nowMin = fixWith2Chars(now.getMinuteOfHour());
-		
+
 		try {
 			PrintWriter writer = new PrintWriter(name, "UTF-8");
-			//Add BOM character to Excel character compatibility
+			// Add BOM character to Excel character compatibility
 			writer.print('\ufeff');
-			
+
 			writer.println("ARTÍCULO");
 			writer.println("Titulo" + divider + article.getTitle());
-			writer.println("Subtitulo" + divider +article.getSubtitle());
+			writer.println("Subtitulo" + divider + article.getSubtitle());
 			writer.println("Fecha" + divider + date);
 			writer.println("Hora" + divider + hour);
-			writer.println("Autor" + divider +article.getAuthor());
-			writer.println("Diario" + divider +article.getDiary());
-			writer.println("Enlace" + divider +article.getUrl());
+			writer.println("Autor" + divider + article.getAuthor());
+			writer.println("Diario" + divider + article.getDiary());
+			writer.println("Enlace" + divider + article.getUrl());
 			writer.println();
 			writer.println("ANÁLISIS");
-			writer.println("Comentarios" + divider +article.getCommentaries().size());
-			writer.println("Fecha" + divider + now.getYear() + "/" + nowM + "/" + nowD);
-			writer.println("Hora" + divider + nowH + ":" + nowMin );
+			writer.println("Comentarios" + divider
+					+ article.getCommentaries().size());
+			writer.println("Fecha" + divider + now.getYear() + "/" + nowM + "/"
+					+ nowD);
+			writer.println("Hora" + divider + nowH + ":" + nowMin);
 			writer.println();
 			writer.println();
 			writer.println("COMENTARIOS");
-			writer.println("Nº" + divider + "Fecha" + divider + "Hora" + divider + "Autor" + divider + "Comentario");
+			writer.println("Nº" + divider + "Fecha" + divider + "Hora"
+					+ divider + "Autor" + divider + "Comentario");
 
 			for (int i = 0; i < article.getCommentaries().size(); i++) {
 				Commentary commentary = article.getCommentaries().get(i);
-				
-				if (commentary.getDateTime()!=null){
-				writer.println(
-						commentary.getNumber()
-						+ divider + date 
-						+ divider + hour
-						+ divider + commentary.getNickName()
-						//Change the ";" character to ":" to the CSV correct behavior
-						+ divider + commentary.getCommentary().replace(divider, ":").replace("\"", ""));
-				}else{
-					writer.println(
-							commentary.getNumber()
-							+ divider + commentary.getDate() 
-							+ divider + commentary.getDate()
-							+ divider + commentary.getNickName()
-							//Change the ";" character to ":" to the CSV correct behavior
-							+ divider + commentary.getCommentary().replace(divider, ":").replace("\"", ""));
+				if (commentary.getDateTime() != null) {
+
+					DateTime dtCom = commentary.getDateTime();
+					String[] dtParts = dateTimeCutter(dtCom);
+					date = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
+					hour = "" + dtParts[3] + ":" + dtParts[4];
+
+					writer.println(commentary.getNumber()
+							+ divider
+							+ date
+							+ divider
+							+ hour
+							+ divider
+							+ commentary.getNickName()
+							// Change the ";" character to ":" to the CSV
+							// correct behavior
+							+ divider
+							+ commentary.getCommentary().replace(divider, ":")
+									.replace("\"", ""));
+				} else {
+					writer.println(commentary.getNumber() + divider
+							+ commentary.getDate()
+							+ divider
+							+ commentary.getDate()
+							+ divider
+							+ commentary.getNickName()
+							// Change the ";" character to ":" to the CSV
+							// correct behavior
+							+ divider
+							+ commentary.getCommentary().replace(divider, ":")
+									.replace("\"", ""));
 				}
 			}
 			writer.close();
@@ -126,10 +147,33 @@ public class ProxiCSVWriter {
 		}
 	}
 	
-	private static String fixWith2Chars(int number){
-		String x ="";
-		if (number<10) x = "0"+number;
-		else x = "" + number;
+	private static String[] dateTimeCutter(DateTime dt){
+		String[] dtParts = new String[6];
+		
+		String year = "" + dt.getYear();
+		String month = fixWith2Chars(dt.getMonthOfYear());
+		String day = fixWith2Chars(dt.getDayOfMonth());
+		String hour = fixWith2Chars(dt.getHourOfDay());
+		String minute = fixWith2Chars(dt.getMinuteOfHour());
+		String second = fixWith2Chars(dt.getSecondOfMinute());
+		
+		dtParts[0] = year;
+		dtParts[1] = month;
+		dtParts[2] = day;
+		dtParts[3] = hour;
+		dtParts[4] = minute;
+		dtParts[5] = second;
+		
+		return dtParts;
+		
+	}
+
+	private static String fixWith2Chars(int number) {
+		String x = "";
+		if (number < 10)
+			x = "0" + number;
+		else
+			x = "" + number;
 		return x;
 	}
 
