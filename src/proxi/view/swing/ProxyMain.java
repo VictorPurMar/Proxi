@@ -93,7 +93,7 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
         Image ima = ico.getImage();
         this.jfSdi.setIconImage(ima);
         
-        this.jfSdi.setTitle("Proxy  Improving your research");
+        this.jfSdi.setTitle("Proxi 'Improving your research'");
         this.jfSdi.setSize(600, 500);
         this.jfSdi.setResizable(false);
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
