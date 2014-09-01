@@ -88,7 +88,7 @@ public class ProxySecond implements ActionListener, ViewInterface {
 		Image ima = ico.getImage();
 		this.jfSdi.setIconImage(ima);
 
-		this.jfSdi.setTitle("Proxy Comment Analyzer");
+		this.jfSdi.setTitle("Proxi   Improving your research");
 		this.jfSdi.setSize(600, 300);
 		this.jfSdi.setResizable(false);
 		this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -231,7 +231,7 @@ public class ProxySecond implements ActionListener, ViewInterface {
 		Image ima = ico.getImage();
 		this.jfSdi.setIconImage(ima);
 
-		this.jfSdi.setTitle("Proxy Comment Analyzer");
+		this.jfSdi.setTitle("Proxi   Improving your research");
 		this.jfSdi.setSize(600, 300);
 		this.jfSdi.setResizable(false);
 		this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
