@@ -118,4 +118,13 @@ public class Controller {
 			ProxiCSVWriter.makeTheCSV(articles.get(i));
 		}
 	}
+	
+	public void close(){
+		try{
+			ArticleInflater.closeDriver();
+		}catch(Exception e){
+			//Driver is null
+		}
+		System.exit(0);
+	}
 }

@@ -107,7 +107,11 @@ public class ArticleInflater {
 	public void close() {
 		driver.close();
 	}
-
+	
+	public static void closeDriver(){
+		driver.close();
+	}
+	
 	// Private methods
 
 	/**
