@@ -71,7 +71,7 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
     private JFileChooser jFileChooser;
     private JTextArea ta;
     private JScrollPane scroll;
-    ImageIcon ico;
+    private ImageIcon ico;
     
     //Non visual variables
     public HashSet<String> urls = null;
@@ -87,7 +87,7 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
 
     @Override
     public void initComponents() {
-    	ico = new ImageIcon(this.getClass().getResource("/img/proxi_fondo.png"));
+    	ico = new ImageIcon(this.getClass().getResource("/img/proxi.png"));
 //    	ImageIcon icon = new ImageIcon(this.getClass().getResource("/img/proxi_fondo.png"));
         this.jfSdi = new JFrame();
         Image ima = ico.getImage();
