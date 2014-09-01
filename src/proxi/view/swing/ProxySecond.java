@@ -27,6 +27,8 @@ package proxi.view.swing;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -57,11 +59,12 @@ public class ProxySecond implements ActionListener, ViewInterface{
     private JPanel jPanel, buttonPane, textPane;
     private JLabel jlInstructions;
     private JMenuBar jMenuBar;
-    private JMenu jMenuMain, jMenuConfig;
+    private JMenu jMenuMain, jMenuConfig, jMenuAbout;
     private JMenuItem jmiMainExit, jmiConfigWordList, jmiPaste;
     private JButton jbAnalyze, jbExit;
     private JFileChooser jFileChooser;
     private JTextArea ta;
+    private Icon gif;
 //    private JScrollPane scroll;
     
     //Non visual variables
@@ -80,11 +83,14 @@ public class ProxySecond implements ActionListener, ViewInterface{
     public void initComponents() {
         this.jfSdi = new JFrame();
         this.jfSdi.setTitle("Proxy Comment Analyzer");
-        this.jfSdi.setSize(600, 200);
+        this.jfSdi.setSize(600, 300);
         this.jfSdi.setResizable(false);
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         jfSdi.setLocation(dim.width/2-jfSdi.getSize().width/2, dim.height/2-jfSdi.getSize().height/2);
+        
+//        ImageIcon icon = new ImageIcon("res/ani_mini.png");
+//        this.jfSdi.setIconImage(icon.getImage());
         
         //Add Nimbus Look and feel
         try {
@@ -107,7 +113,43 @@ public class ProxySecond implements ActionListener, ViewInterface{
         this.jFileChooser = new JFileChooser();
         this.jFileChooser.setCurrentDirectory(new File("."));
        
-        //MENU BAR
+        //Add menu
+        menuDisplay();
+        
+        gif = new ImageIcon("res/ani_mini.gif");
+        JLabel label = new JLabel(gif);
+        
+        //Add Instructions
+        textPane = new JPanel();
+        textPane.add(label);
+        jlInstructions = new JLabel("El programa esta realizando operaciones \r\n No Cierre la ventana de mozilla");
+        textPane.add(jlInstructions);
+           
+        //Buttons
+        
+        this.jbExit = new JButton("Salir");
+        this.jbExit.addActionListener(this);
+        
+        //Button Pane
+        this.buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        buttonPane.add(Box.createHorizontalGlue());
+        buttonPane.add(jbExit);      
+
+        this.jPanel.add(textPane);
+        this.jPanel.add(buttonPane);
+        
+ 
+        
+        //Add panel to principal frame
+        
+        this.jfSdi.add(this.jPanel);
+        this.jfSdi.setVisible(true);
+    }
+
+	private void menuDisplay() {
+		//MENU BAR
         this.jMenuBar = new JMenuBar();
         this.jfSdi.setJMenuBar(this.jMenuBar);
         
@@ -125,35 +167,10 @@ public class ProxySecond implements ActionListener, ViewInterface{
         this.jmiConfigWordList = new JMenuItem("Palabras de control");
         this.jMenuConfig.add(this.jmiConfigWordList);
         
-        
-        //Add Instructions
-        textPane = new JPanel();
-//        textPane.setLayout(new BorderLayout());
-        jlInstructions = new JLabel("El programa esta realizando operaciones \r\n No Cierre la ventana de mozilla");
-        textPane.add(jlInstructions);
-           
-        //Buttons
-        
-        this.jbExit = new JButton("Salir");
-        this.jbExit.addActionListener(this);
-        
-        //Button Pane
-        this.buttonPane = new JPanel();
-        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        buttonPane.add(Box.createHorizontalGlue());
-        buttonPane.add(jbExit);      
-
-        
-        this.jPanel.add(textPane);
-        this.jPanel.add(buttonPane);
-        
- 
-        
-        //Add panel to principal frame
-        this.jfSdi.add(this.jPanel);
-        this.jfSdi.setVisible(true);
-    }
+        //Button 3
+        this.jMenuAbout = new JMenu("Acerca de");
+        this.jMenuBar.add(this.jMenuAbout);
+	}
 
     private void registerListeners() {
         this.jmiMainExit.addActionListener(new ActionListener() {
@@ -173,6 +190,7 @@ public class ProxySecond implements ActionListener, ViewInterface{
 			c.analyzedUrls = this.analyzeTheUrls();
 			this.cont = true;
 		}else if (event.getSource() == this.jbExit){
+			c.close();
 			System.exit(0);
 		}
 		
@@ -192,11 +210,78 @@ public class ProxySecond implements ActionListener, ViewInterface{
 	
 	public void close(){
 		this.jfSdi.dispose();
+		finalMessage();
 	}
 
 	public boolean returnAttributes() {
 		// TODO Auto-generated method stub
 		return this.cont;
+	}
+	
+	public void finalMessage(){
+		        this.jfSdi = new JFrame();
+		        this.jfSdi.setTitle("Proxy Comment Analyzer");
+		        this.jfSdi.setSize(600, 300);
+		        this.jfSdi.setResizable(false);
+		        this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		        jfSdi.setLocation(dim.width/2-jfSdi.getSize().width/2, dim.height/2-jfSdi.getSize().height/2);
+		        
+		        //Add Nimbus Look and feel
+		        try {
+		            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		                if ("Nimbus".equals(info.getName())) {
+		                    UIManager.setLookAndFeel(info.getClassName());
+		                    break;
+		                }
+		            }
+		        } catch (Exception e) {
+		        }
+		        
+		    
+		        //Add panel
+		        
+		        this.jPanel = new JPanel();
+		        this.jPanel.setLayout(new BoxLayout(this.jPanel, BoxLayout.PAGE_AXIS));
+		        this.jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		        
+		        this.jFileChooser = new JFileChooser();
+		        this.jFileChooser.setCurrentDirectory(new File("."));
+		       
+		        //MENU BAR
+		        menuDisplay();
+		        
+		        //logo
+		        gif = new ImageIcon("res/proxi.png");
+		        JLabel label = new JLabel(gif);
+		        
+		        //Add Instructions
+		        textPane = new JPanel();
+		        textPane.add(label);
+//		        textPane.setLayout(new BorderLayout());
+		        jlInstructions = new JLabel("Las operaciones han terminado correctamente \r\n Puede cerrar el programa");
+		        textPane.add(jlInstructions);
+		           
+		        //Buttons
+		        
+		        this.jbExit = new JButton("Salir");
+		        this.jbExit.addActionListener(this);
+		        
+		        //Button Pane
+		        this.buttonPane = new JPanel();
+		        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+		        buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		        buttonPane.add(Box.createHorizontalGlue());
+		        buttonPane.add(jbExit);      
+
+		        this.jPanel.add(textPane);
+		        this.jPanel.add(buttonPane);
+		        
+		        //Add panel to principal frame
+		        
+		        this.jfSdi.add(this.jPanel);
+		        this.jfSdi.setVisible(true);
+		   
 	}
 }
 

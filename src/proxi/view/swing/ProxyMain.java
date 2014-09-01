@@ -28,6 +28,7 @@ package proxi.view.swing;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -91,6 +92,9 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
         this.jfSdi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         jfSdi.setLocation(dim.width/2-jfSdi.getSize().width/2, dim.height/2-jfSdi.getSize().height/2);
+        
+        ImageIcon icon = new ImageIcon("res/proxi_fondo.png");
+        this.jfSdi.setIconImage(icon.getImage());
         
         //Add Nimbus Look and feel
         try {
@@ -219,6 +223,7 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
 			c.analyzedUrls = this.analyzeTheUrls();
 			this.cont = true;
 		}else if (event.getSource() == this.jbExit){
+			this.c.close();
 			System.exit(0);
 		}
 		
