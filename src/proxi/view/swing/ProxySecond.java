@@ -115,8 +115,8 @@ public class ProxySecond implements ActionListener, ViewInterface{
        
         //Add menu
         menuDisplay();
-        
-        gif = new ImageIcon("res/ani_mini.gif");
+        gif = new ImageIcon(this.getClass().getResource("/img/ani_mini.gif"));
+//        gif = new ImageIcon("res/ani_mini.gif");
         JLabel label = new JLabel(gif);
         
         //Add Instructions
@@ -252,7 +252,8 @@ public class ProxySecond implements ActionListener, ViewInterface{
 		        menuDisplay();
 		        
 		        //logo
-		        gif = new ImageIcon("res/proxi.png");
+		        gif = new ImageIcon(this.getClass().getResource("/img/proxi.png"));
+//		        gif = new ImageIcon("/img/proxi.png");
 		        JLabel label = new JLabel(gif);
 		        
 		        //Add Instructions

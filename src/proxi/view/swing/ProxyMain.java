@@ -46,6 +46,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,6 +71,7 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
     private JFileChooser jFileChooser;
     private JTextArea ta;
     private JScrollPane scroll;
+    ImageIcon ico;
     
     //Non visual variables
     public HashSet<String> urls = null;
@@ -85,7 +87,12 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
 
     @Override
     public void initComponents() {
+    	ico = new ImageIcon(this.getClass().getResource("/img/proxi_fondo.png"));
+//    	ImageIcon icon = new ImageIcon(this.getClass().getResource("/img/proxi_fondo.png"));
         this.jfSdi = new JFrame();
+        Image ima = ico.getImage();
+        this.jfSdi.setIconImage(ima);
+        
         this.jfSdi.setTitle("Proxy Comment Analyzer");
         this.jfSdi.setSize(600, 500);
         this.jfSdi.setResizable(false);
@@ -93,9 +100,10 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         jfSdi.setLocation(dim.width/2-jfSdi.getSize().width/2, dim.height/2-jfSdi.getSize().height/2);
         
-        ImageIcon icon = new ImageIcon("res/proxi_fondo.png");
-        this.jfSdi.setIconImage(icon.getImage());
-        
+//        ImageIcon icon = new ImageIcon("/res/proxi_fondo.png");
+//        ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/proxi_fondo.png"));
+//        this.jfSdi.setIconImage(icon.getImage());
+//        
         //Add Nimbus Look and feel
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -223,7 +231,6 @@ public class ProxyMain implements MouseListener, ActionListener, ViewInterface{
 			c.analyzedUrls = this.analyzeTheUrls();
 			this.cont = true;
 		}else if (event.getSource() == this.jbExit){
-			this.c.close();
 			System.exit(0);
 		}
 		
