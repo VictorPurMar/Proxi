@@ -44,7 +44,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
