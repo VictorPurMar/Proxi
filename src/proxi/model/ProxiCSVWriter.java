@@ -60,7 +60,7 @@ public class ProxiCSVWriter {
 					+ article.getCommentaries().size()
 					+ "_"
 					+ article.getTitle().toLowerCase()
-							.replaceAll("[,.;:-_'\\s]", "").substring(0, 20)
+							.replaceAll("[,.;:-_'\\s]", "").replaceAll("\"", "").substring(0, 20)
 					+ ".csv";
 			articleDate = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
 			articleHour = "" + dtParts[3] + ":" + dtParts[4];
