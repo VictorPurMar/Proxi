@@ -116,22 +116,38 @@ public class DiariesController {
 				"header/div[@class='autor']/span[text()]", "header/time",
 				"div[@class='texto-comentario']/p[text()]");
 
-		// Diary d = new Diary(diaryName, diaryBasicUrl, displayType,
-		// commentsPage, showComments, nextButton, titleRegEx, subtitleRegEx,
-		// authorRegEx, dateRegEx, diaryNameRegEx, commentaryRegEx,
-		// commentNumberRegEx, commentAuthorRegEx, commentTimeRegEx,
-		// commentTextRegEx)
+		// Diary d = new Diary(diaryName, diaryBasicUrl, commentsPage,
+		// showComments, nextButton, titleRegEx, subtitleRegEx, authorRegEx,
+		// dateRegEx, commentaryRegEx, commentNumberRegEx, commentAuthorRegEx,
+		// commentTimeRegEx, commentTextRegEx)
 
-		Diary elPais = new Diary("El Pais", "elpais.com",
-				"//div[@class='encabezado estirar']/a[@class='conversacion']",
-				null, null,
+		//OLD EL PAIS
+//		Diary elPais = new Diary("El Pais", "elpais.com",
+//				"//div[@class='encabezado estirar']/a[@class='conversacion']",
+//				null, null,
+//				"//h1[@id='titulo_noticia']",
+//				"//div[@id='subtitulo_noticia']/h2",
+//				"//span[@class='firma']/span[@class='autor']/a",
+//				"//span[@class='firma']/a[@class='actualizado']",
+//				"//div[@class='mensajes']/div", "", // Provisional
+//				"div/div/div//p", "div//span[@class='fecha']", 
+//				"div//div[@class='contenedorcolumnas']/div[@class='comentario']/p");
+		
+		Diary elPais = new Diary(
+				"El Pais", 
+				"elpais.com",
+				"//div[@class='contenido']/iframe",
+				null, 
+				"//a[@class='flecha' @title='Página siguiente']",
 				"//h1[@id='titulo_noticia']",
 				"//div[@id='subtitulo_noticia']/h2",
 				"//span[@class='firma']/span[@class='autor']/a",
 				"//span[@class='firma']/a[@class='actualizado']",
-				"//div[@class='mensajes']/div", "", // Provisional
-				"div/div/div//p", "div//span[@class='fecha']", 
-				"div//div[@class='contenedorcolumnas']/div[@class='comentario']/p");
+				"//div[@id='contenedor_mensajes']//div[@class='comentario']", 
+				"", // Provisional
+				"p[@class='autor']",
+				"span[@class='fecha']/a", 
+				"p[contains(@id,'contenidomensaje')]");
 		
 		Diary veinteMinutos = new Diary(
 				"20 Minutos",

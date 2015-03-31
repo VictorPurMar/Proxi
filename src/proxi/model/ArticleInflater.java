@@ -203,8 +203,10 @@ public class ArticleInflater {
 		if (this.diary.getCommentsPage() != null) {
 			WebElement element = driver.findElement(By.xpath(this.diary
 					.getCommentsPage()));
-			element.click();
-
+			
+			//element.click();
+			driver.navigate().to(element.getAttribute("src").toString());
+			
 			try {
 				// wait to page load
 				Thread.sleep(1000);
@@ -277,6 +279,7 @@ public class ArticleInflater {
 			// Commentary
 			String comment = e.findElement(
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
+			System.out.println(comment.toString());
 			comment = comment.replaceAll("\\n+", "");
 
 			// number
