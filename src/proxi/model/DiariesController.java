@@ -143,12 +143,14 @@ public class DiariesController {
 				"//div[@id='subtitulo_noticia']/h2",
 				"//span[@class='firma']/span[@class='autor']/a",
 				"//span[@class='firma']/a[@class='actualizado']",
-				"//div[@id='contenedor_mensajes']//div[@class='comentario']", 
+				"//div[@class='mensajes']", 
 				"", // Provisional
-				"p[@class='autor']",
-				"span[@class='fecha']/a", 
-				"p[contains(@id,'contenidomensaje')]");
-		
+				"div//p[@class='autor']",
+				//div[contains(@class, 'article')]
+				"", 
+				"div//p[contains(@id,'contenido')]");
+				//[contains(@id, 'contenidomensaje_')]
+				//internacional.elpais.com/internacional/2015/04/01/actualidad/1427850671_849741.html
 		Diary veinteMinutos = new Diary(
 				"20 Minutos",
 				"20minutos.es",

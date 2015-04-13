@@ -62,6 +62,8 @@ public class ArticleInflater {
 	private Diary diary;
 	private Set<Commentary> analyzedComments;
 	private int commentCounter;
+	
+	private static boolean firstTime = true;
 
 	// Constructor
 
@@ -200,12 +202,15 @@ public class ArticleInflater {
 	 */
 	private Article commentInflater(Article article) {
 
-		if (this.diary.getCommentsPage() != null) {
+		if (this.diary.getCommentsPage() != null ) {
 			WebElement element = driver.findElement(By.xpath(this.diary
 					.getCommentsPage()));
 			
-			//element.click();
-			driver.navigate().to(element.getAttribute("src").toString());
+			if (firstTime){
+				driver.navigate().to(element.getAttribute("src").toString());
+				firstTime = false;
+			}else{element.click();}
+			
 			
 			try {
 				// wait to page load
@@ -213,6 +218,8 @@ public class ArticleInflater {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			
 		}
 
 		if (this.diary.getNextButton() != null) {
