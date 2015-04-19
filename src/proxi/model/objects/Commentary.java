@@ -87,13 +87,15 @@ public class Commentary {
 		this.commentary = commentary;
 	}
 
-	// Equals and HashCode
+	// Equals and hashCode
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + number;
+		result = prime * result
+				+ ((commentary == null) ? 0 : commentary.hashCode());
 		return result;
 	}
 
@@ -106,17 +108,25 @@ public class Commentary {
 		if (getClass() != obj.getClass())
 			return false;
 		Commentary other = (Commentary) obj;
-		if (number != other.number)
+		if (commentary == null) {
+			if (other.commentary != null)
+				return false;
+		} else if (!commentary.equals(other.commentary))
 			return false;
 		return true;
 	}
 
+
 	// To String
 
+	
 	@Override
 	public String toString() {
 		return "\nCommentary [nickName=" + nickName + ", date=" + date
 				+ ", number=" + number + ", commentary=" + commentary + "]";
 	}
+
+
+	
 
 }

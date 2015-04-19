@@ -41,6 +41,7 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,19 +58,22 @@ public class ArticleInflater {
 	// Web driver of Selenium
 	// FirefoxDriver in that case
 	private static WebDriver driver;
+	private static boolean firstTime = true;
+	
+	private static int NEXT_BUTTON_TIME =  400 ; //400;
+	private static int LOAD_PAGE_TIME = 500;//1000;
 
 	private String analyzedUrl;
 	private Diary diary;
 	private Set<Commentary> analyzedComments;
-	private int commentCounter;
-	
-	private static boolean firstTime = true;
+//	private int commentCounter;
 
 	// Constructor
 
 	public ArticleInflater() {
 		analyzedComments = new HashSet<Commentary>();
-		commentCounter = 0;
+//		commentCounter = 0;
+		
 	}
 
 	// Public Methods
@@ -202,24 +206,20 @@ public class ArticleInflater {
 	 */
 	private Article commentInflater(Article article) {
 
-		if (this.diary.getCommentsPage() != null ) {
+		if (this.diary.getCommentsPage() != null) {
 			WebElement element = driver.findElement(By.xpath(this.diary
 					.getCommentsPage()));
-			
 			if (firstTime){
 				driver.navigate().to(element.getAttribute("src").toString());
 				firstTime = false;
 			}else{element.click();}
-			
-			
+
 			try {
 				// wait to page load
-				Thread.sleep(1000);
+				Thread.sleep(LOAD_PAGE_TIME);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
 
 		if (this.diary.getNextButton() != null) {
@@ -249,8 +249,10 @@ public class ArticleInflater {
 			try {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
-				element.click();
-				Thread.sleep(500); // Correct one unexpected behavior and
+				JavascriptExecutor executor = (JavascriptExecutor)driver;
+				executor.executeScript("arguments[0].click();", element);
+				
+				Thread.sleep(NEXT_BUTTON_TIME); // Correct one unexpected behavior and
 									// allow to process the URL to the
 									// browser
 			} catch (Exception e) {
@@ -272,22 +274,29 @@ public class ArticleInflater {
 				By.xpath(this.diary.getCommentaryRegEx())).iterator();
 
 		// Count the commentaries
-		while (commentary.hasNext()) {
-			commentary.next();
-			this.commentCounter++;
-		}
+//		while (commentary.hasNext()) {
+//			commentary.next();
+////			this.commentCounter++;
+//		}
 
 		commentary = driver.findElements(
 				By.xpath(this.diary.getCommentaryRegEx())).iterator();
 
 		while (commentary.hasNext()) {
 			WebElement e = commentary.next();
-
+			WebElement commentaryElement = e.findElement(By.xpath(this.diary.getCommentTextRegEx()));
+			
+			
+			
 			// Commentary
 			String comment = e.findElement(
 					By.xpath(this.diary.getCommentTextRegEx())).getText();
-			System.out.println(comment.toString());
-			comment = comment.replaceAll("\\n+", "");
+			comment = comment.replaceAll("\\n+", "").replaceAll("\\r\\n", "").replaceAll("\\r", "");
+			if (comment.equals("")){
+				JavascriptExecutor js = (JavascriptExecutor) driver; 
+				comment = (String) js.executeScript("return arguments[0].textContent", commentaryElement);
+				comment = comment.replaceAll("\\n+", "").replaceAll("\\r\\n", "").replaceAll("\\r", "");;
+			}
 
 			// number
 			int n = 0;
@@ -297,35 +306,56 @@ public class ArticleInflater {
 								By.xpath(this.diary.getCommentNumberRegEx()))
 								.getText());
 			} catch (Exception x) {
-				n = commentCounter;
-				commentCounter--;
+//				n = commentCounter;
+//				this.commentCounter++;
+//				commentCounter--;
 			}
 
 			// Author
-			String commentaryAuthor = e.findElement(
-					By.xpath(this.diary.getCommentAuthorRegEx())).getText();
+			WebElement comAuthorElement =  e.findElement(
+					By.xpath(this.diary.getCommentAuthorRegEx()));
+//			String commentaryAuthor = e.findElement(
+//					By.xpath(this.diary.getCommentAuthorRegEx())).getText();
+			String commentaryAuthor = e.findElement(By.xpath(this.diary.getCommentAuthorRegEx())).getText();
+			if (commentaryAuthor.equals("")){
+				JavascriptExecutor js = (JavascriptExecutor) driver; 
+				commentaryAuthor = (String) js.executeScript("return arguments[0].textContent", comAuthorElement);
+
+			}
+			
 			// Time
 
 			String time = "";
+			WebElement timeElement = e.findElement(By.xpath(this.diary.getCommentTimeRegEx()));
 			try {
+				
 				time = e.findElement(By.xpath(this.diary.getCommentTimeRegEx()))
 						.getText();
+				if (time.equals("")){
+					JavascriptExecutor js = (JavascriptExecutor) driver; 
+					time = (String) js.executeScript("return arguments[0].textContent", timeElement);
+				}
 			} catch (Exception x) {
 				try {
+					timeElement = e.findElement(By.xpath(this.diary.getCommentTimeRegEx()));
 					time = e.findElement(
 							By.xpath(this.diary.getCommentTimeRegEx()))
 							.getAttribute("datetime").toString();
+					if (time.equals("")){
+						JavascriptExecutor js = (JavascriptExecutor) driver; 
+						time =  (String) js.executeScript("return arguments[0].textContent",timeElement.getAttribute("datetime"));
+					}
+					
 				} catch (Exception y) {
 					time = "Fecha erronea";
 				}
 			}
 			// This condition add only non repeated comments
-			Commentary c = new Commentary(commentaryAuthor, time, n, comment);
+			Commentary c = new Commentary(commentaryAuthor, time, n==0?article.getCommentaries().size():n, comment);
 			if (!this.analyzedComments.contains(c)) {
 				this.analyzedComments.add(c);
 				DateTime dt = DataFixer.dataFixer(article, c);
 				c.setDateTime(dt);
-
 				article.addCommentary(c);
 			}
 		}

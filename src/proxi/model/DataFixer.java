@@ -166,7 +166,7 @@ public class DataFixer {
 			String[] dateParts = date.split(" ");
 			int minutes = Integer.parseInt(dateParts[1]);
 			return dt.minusMinutes(minutes);
-		} else if (date.contains("horas") || date.contains("hora")) {
+		} else if (date.contains("horas") || date.contains("hora") && !date.contains("#msg:hora#")) {
 			String[] dateParts = date.split(" ");
 			int hours = Integer.parseInt(dateParts[1]);
 			return dt.minusHours(hours);

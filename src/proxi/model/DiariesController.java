@@ -138,19 +138,17 @@ public class DiariesController {
 				"elpais.com",
 				"//div[@class='contenido']/iframe",
 				null, 
-				"//a[@class='flecha' @title='Página siguiente']",
+				"//a[@class='flecha'][contains(@title,' siguiente')]",
 				"//h1[@id='titulo_noticia']",
 				"//div[@id='subtitulo_noticia']/h2",
 				"//span[@class='firma']/span[@class='autor']/a",
 				"//span[@class='firma']/a[@class='actualizado']",
-				"//div[@class='mensajes']", 
+				"//div[@class='comentario']", 
 				"", // Provisional
-				"div//p[@class='autor']",
-				//div[contains(@class, 'article')]
-				"", 
-				"div//p[contains(@id,'contenido')]");
-				//[contains(@id, 'contenidomensaje_')]
-				//internacional.elpais.com/internacional/2015/04/01/actualidad/1427850671_849741.html
+				"p[@class='autor']", 
+				"div//span[@class='fecha']", 
+				"p[contains(@id,'contenidomensaje_')]");
+
 		Diary veinteMinutos = new Diary(
 				"20 Minutos",
 				"20minutos.es",
