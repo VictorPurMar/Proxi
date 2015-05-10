@@ -109,7 +109,7 @@ public class DiariesController {
 
 		Diary elMundo = new Diary("El Mundo", "www.elmundo.es", null, null,
 				"//ul[@id='subNavComentarios']//li//a[@id='botonMas']",
-				"//h1[@itemprop='headline']", "//p[@class='antetitulo']",
+				"//h1[@itemprop='headline']", "//h3[@itemprop='alternativeHeadline']",
 				"//footer/address//span[@itemprop='name']", "//footer/time",
 				"//div[@id='listado_comentarios']/section/article",
 				"header/h1/a[text()]",
@@ -154,16 +154,16 @@ public class DiariesController {
 				"20minutos.es",
 				null,
 				null,
-				"//li[@class='item nextPage']/a",
+				"//div[@class='fyre-stream-more-container']",
 				"//div[@id='content']/div[@class='article inner']/h1",
 				"//div[@id='content']/div[@class='article inner']/div[@class='lead']/ul/li[1]",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li/a",
-				"//div[@id='listado_kment']/div[@id='comentarios']/div[@id]/div[@class='article-comment' or @class='article-comment featured']",
-				"div[@class='comment-header' or @class='comment-header featured']/span/div[@class='comments ordinal']/span",
-				"div[@class='comment-header' or @class='comment-header featured']/div[@class='user']//span[@class='vlink']",
-				"div[@class='comment-header' or @class='comment-header featured']/div[@class='user']//span[@class='user-data']",
-				"div[@class='comment-text']/p");
+				"//div[@class='fyre-comment-wrapper']",
+				"",
+				"header//span[@itemprop='author']",
+				"header//time[@class='fyre-comment-date']",
+				"section//div[@class='fyre-comment']/p");
 		
 
 		this.diaries.add(elMundo);

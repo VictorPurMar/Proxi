@@ -210,7 +210,8 @@ public class ArticleInflater {
 			WebElement element = driver.findElement(By.xpath(this.diary
 					.getCommentsPage()));
 			if (firstTime){
-				driver.navigate().to(element.getAttribute("src").toString());
+				driver.navigate().to(element.getAttribute("data-src").toString());
+				//driver.navigate().to(element.getAttribute("src").toString());
 				firstTime = false;
 			}else{element.click();}
 

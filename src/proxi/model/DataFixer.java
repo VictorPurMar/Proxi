@@ -45,7 +45,7 @@ public class DataFixer {
 
 	public static DateTime dataFixer(Article article, Commentary commentary) {
 		if (article.getDiary().contains("20minutos.es"))
-			return minutosCommentaryDateText2DateTime(commentary);
+			return paisCommentaryDateText2DateTime(commentary);
 		else if (article.getDiary().contains("elpais.com"))
 			return paisCommentaryDateText2DateTime(commentary);
 		else if (article.getDiary().contains("elmundo.es"))
