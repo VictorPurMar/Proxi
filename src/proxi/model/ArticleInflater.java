@@ -60,8 +60,8 @@ public class ArticleInflater {
 	private static WebDriver driver;
 	private static boolean firstTime = true;
 	
-	private static int NEXT_BUTTON_TIME =  400 ; //400;
-	private static int LOAD_PAGE_TIME = 500;//1000;
+	private static int NEXT_BUTTON_TIME =  100 ; //400;
+	private static int LOAD_PAGE_TIME = 100;//1000;
 
 	private String analyzedUrl;
 	private Diary diary;
@@ -244,9 +244,23 @@ public class ArticleInflater {
 	 */
 	private void loopNextClicker(Article article) {
 		Boolean exit = false;
+		
+
+		
+		
 		while (!exit) {
 			// Article Commentaries adder
 			article = showedCommentsFiller(article);
+			
+			//patch to 20 mins Diary
+			if (article.getDiary().contains("20minutos")){
+				WebElement e = driver.findElement(By.xpath("//div[@class='fyre-stream-more']"));
+				String att = e.getAttribute("style");
+				if (!att.equals("")){
+					exit = true;
+				} 
+			}
+			
 			try {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
