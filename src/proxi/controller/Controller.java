@@ -24,8 +24,11 @@
 
 package proxi.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import proxi.model.*;
 import proxi.model.objects.*;
@@ -34,6 +37,8 @@ import proxi.view.swing.ProxySecond;
 
 public class Controller {
 
+	private long startDate;
+	private long endDate;
 	private DiariesController dC;
 	private static Controller instance;
 	public HashSet<String> analyzedUrls;
@@ -66,6 +71,8 @@ public class Controller {
 	//private methods
 	
 	private void run(){
+		Date date = new Date();
+		startDate = date.getTime();
 		// Obtain the diaries list
 		this.dC.getTheDiaries();
 		
@@ -91,6 +98,18 @@ public class Controller {
 		
 		//Csv writter
 	    csvWritter();
+	    
+	    date = new Date();
+	    endDate = date.getTime();
+	    
+	    date.setTime((long) (endDate - startDate));
+	    
+	    long millis = endDate - startDate;
+	    
+	    String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+	            TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+	            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+	    System.out.println(hms);
 	    
 	    //Close the interface
 		ps.close();

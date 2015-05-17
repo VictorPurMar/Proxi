@@ -159,7 +159,7 @@ public class DiariesController {
 				"//div[@id='content']/div[@class='article inner']/div[@class='lead']/ul/li[1]",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li",
 				"//div[@id='content']/div[@class='article inner']/ul[@class='article-author']/li/a",
-				"//div[@class='fyre-comment-wrapper']",
+				"//div[@class='fyre-comment-wrapper' and not(contains(@style, 'display: none;'))]",
 				"",
 				"header//span[@itemprop='author']",
 				"header//time[@class='fyre-comment-date']",

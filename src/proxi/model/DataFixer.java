@@ -160,7 +160,7 @@ public class DataFixer {
 		String date = commentary.getDate().toLowerCase(); // .replaceAll(" - ",
 															// " ").replaceAll(":",
 															// " ");
-		if (date.contains("menos de")) {
+		if (date.contains("menos de") || date.contains("ahora")) {
 			return dt;
 		} else if (date.contains("minutos") || date.contains("minuto")) {
 			String[] dateParts = date.split(" ");

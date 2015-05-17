@@ -60,7 +60,7 @@ public class ArticleInflater {
 	private static WebDriver driver;
 	private static boolean firstTime = true;
 	
-	private static int NEXT_BUTTON_TIME =  100 ; //400;
+	private static int NEXT_BUTTON_TIME =  50 ; //400;
 	private static int LOAD_PAGE_TIME = 100;//1000;
 
 	private String analyzedUrl;
@@ -75,6 +75,7 @@ public class ArticleInflater {
 //		commentCounter = 0;
 		
 	}
+	
 
 	// Public Methods
 
@@ -205,16 +206,17 @@ public class ArticleInflater {
 	 * @return Article inflated with comments
 	 */
 	private Article commentInflater(Article article) {
-
 		if (this.diary.getCommentsPage() != null) {
 			WebElement element = driver.findElement(By.xpath(this.diary
 					.getCommentsPage()));
-			if (firstTime){
-				driver.navigate().to(element.getAttribute("data-src").toString());
-				//driver.navigate().to(element.getAttribute("src").toString());
+			if (firstTime) {
+				driver.navigate().to(
+						element.getAttribute("data-src").toString());
+				// driver.navigate().to(element.getAttribute("src").toString());
 				firstTime = false;
-			}else{element.click();}
-
+			} else {
+				element.click();
+			}
 			try {
 				// wait to page load
 				Thread.sleep(LOAD_PAGE_TIME);
@@ -222,15 +224,12 @@ public class ArticleInflater {
 				e.printStackTrace();
 			}
 		}
-
 		if (this.diary.getNextButton() != null) {
 			// Repeat the show more click until all the commentaries are showed
 			loopNextClicker(article);
-
 		} else {
 			// Article Commentaries adder
 			article = showedCommentsFiller(article);
-
 		}
 		return article;
 	}
@@ -244,33 +243,30 @@ public class ArticleInflater {
 	 */
 	private void loopNextClicker(Article article) {
 		Boolean exit = false;
-		
-
-		
-		
 		while (!exit) {
+			if (article.getDiary().contains("pais")){
 			// Article Commentaries adder
-			article = showedCommentsFiller(article);
-			
+				article = showedCommentsFiller(article);
+			}
 			//patch to 20 mins Diary
 			if (article.getDiary().contains("20minutos")){
 				WebElement e = driver.findElement(By.xpath("//div[@class='fyre-stream-more']"));
 				String att = e.getAttribute("style");
 				if (!att.equals("")){
+					article = showedCommentsFiller(article);
 					exit = true;
-				} 
+				} 			
 			}
-			
 			try {
 				WebElement element = driver.findElement(By.xpath(this.diary
 						.getNextButton()));
 				JavascriptExecutor executor = (JavascriptExecutor)driver;
 				executor.executeScript("arguments[0].click();", element);
-				
 				Thread.sleep(NEXT_BUTTON_TIME); // Correct one unexpected behavior and
-									// allow to process the URL to the
-									// browser
+												// allow to process the URL to the
+												// browser
 			} catch (Exception e) {
+				article = showedCommentsFiller(article);
 				exit = true;
 			}
 		}
