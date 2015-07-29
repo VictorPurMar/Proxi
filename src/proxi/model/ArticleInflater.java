@@ -60,8 +60,8 @@ public class ArticleInflater {
 	private static WebDriver driver;
 	private static boolean firstTime = true;
 	
-	private static int NEXT_BUTTON_TIME =  50 ; //400;
-	private static int LOAD_PAGE_TIME = 100;//1000;
+	private static int NEXT_BUTTON_TIME =  300 ; //400;
+	private static int LOAD_PAGE_TIME = 500;//1000;
 
 	private String analyzedUrl;
 	private Diary diary;

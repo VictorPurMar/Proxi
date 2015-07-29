@@ -52,6 +52,7 @@ public class ProxiCSVWriter {
 			DateTime dtArt = article.getDateTime();
 			String[] dtParts = dateTimeCutter(dtArt);
 
+			try{
 			name = ""
 					+ dtParts[0]
 					+ dtParts[1]
@@ -62,6 +63,20 @@ public class ProxiCSVWriter {
 					+ article.getTitle().toLowerCase()
 							.replaceAll("[,.;:-_'\\s]", "").replaceAll("\"", "").substring(0, 20)
 					+ ".csv";
+			
+			}catch (Exception e){
+				name = ""
+						+ dtParts[0]
+						+ dtParts[1]
+						+ dtParts[2]
+						+ "_"
+						+ article.getCommentaries().size()
+						+ "_"
+						+ article.getTitle().toLowerCase()
+								.replaceAll("[,.;:-_'\\s]", "").replaceAll("\"", "").substring(0, 16)
+						+ ".csv";
+				
+			}
 			articleDate = "" + dtParts[0] + "/" + dtParts[1] + "/" + dtParts[2];
 			articleHour = "" + dtParts[3] + ":" + dtParts[4];
 
